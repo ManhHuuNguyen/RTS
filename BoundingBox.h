@@ -21,7 +21,10 @@ class BoundingBox { //AABB
 		BoundingBox(const BoundingBox & obj);
 		
 		bool contains(BoundingBox & b);
-		bool inside(float xStart, float zStart, float xEnd, float zEnd); // compare with a 2d rectangle, to implement drag and select
+		bool within(float xStart, float zStart, float xEnd, float zEnd); // compare with a 2d rectangle, to implement drag and select
+		//this method checks if the box is completely within the 2d rectangle, 2d speaking
+		bool overlap(float xStart, float zStart, float xEnd, float zEnd);//this method checks if the box overlaps 2d rectangle, 2d speaking
+		// methods like these should probably later be inlined to optimize a bit
 		bool collide(BoundingBox & b);
 		BoundingBox move(glm::mat4 & modelMatrix);
 		

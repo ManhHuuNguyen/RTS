@@ -11,6 +11,5 @@ class Mouse {
 		SDL_Cursor * cursor;
 
 		Mouse(SDL_Window * window);
-		Ray getMouseRay(int x, int y, Camera * camera);
 		~Mouse();
 };

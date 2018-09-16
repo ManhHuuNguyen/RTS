@@ -1,24 +1,26 @@
 #include "InputManager.h"
 
-int InputManager::DRAG = 2;
-int InputManager::LEFT_PRESS = -1;
-int InputManager::RIGHT_PRESS = 1;
+int InputManager::DRAG = 3;
+int InputManager::LEFT_PRESS = 1;
+int InputManager::RIGHT_PRESS = 2;
 int InputManager::CURRENT_POS = 0;
+int InputManager::LEFT_UP = -1;
+int InputManager::RIGHT_UP = -2;
 
 
-void MouseAction::pressLeft(int x, int y) {
+void MouseInput::pressLeft(int x, int y) {
 	left = true;
 	clickCoordX = x;
 	clickCoordY = y;
 }
 
-void MouseAction::pressRight(int x, int y) {
+void MouseInput::pressRight(int x, int y) {
 	right = true;
 	clickCoordX = x;
 	clickCoordY = y;
 }
 
-bool MouseAction::isDrag() {
+bool MouseInput::isDrag() {
 	if (!started){
 		return false;
 	}
@@ -28,7 +30,7 @@ bool MouseAction::isDrag() {
 	return true;
 }
 
-void MouseAction::start(int startX, int startY) {
+void MouseInput::start(int startX, int startY) {
 	this->startX = startX;
 	this->startY = startY;
 	this->endX = startX;
@@ -36,12 +38,12 @@ void MouseAction::start(int startX, int startY) {
 	started = true;
 }
 
-void MouseAction::reset() {
+void MouseInput::reset() {
 	startX = -1;
 	startY = -1;
 	endX = -1;
 	endY = -1;
-	finished = false;
+	finished = false; 
 	started = false;
 
 	left = false;
@@ -50,70 +52,92 @@ void MouseAction::reset() {
 	clickCoordY = -1;
 }
 
-void MouseAction::update(int relX, int relY) {
+void MouseInput::update(int relX, int relY) {
 	if (started) {
 		endX += relX;
 		endY += relY;
 	}
 }
 
+Input::Input(int inputID, int numFollow, bool fromMouse) {
+	this->inputID = inputID;
+	this->numFollow = numFollow;
+	this->fromMouse = fromMouse;
+}
 
 InputWrapper InputManager::convertToActions(std::vector<SDL_Event> & events) {
 	InputWrapper wrapper;
-	mouseAction.pressed = false;
+	mouseInput.pressed = false;
 	for (SDL_Event & sdlEvent : events) {
 		switch (sdlEvent.type){
 			case SDL_KEYDOWN:
-				wrapper.keyActions.push_back(sdlEvent.key.keysym.sym);
+				wrapper.inputs.push_back(Input{sdlEvent.key.keysym.sym, 0, false});
 				break;
 			case SDL_MOUSEBUTTONDOWN:
 				if (sdlEvent.button.button == SDL_BUTTON_LEFT) {
-					mouseAction.start(sdlEvent.motion.x, sdlEvent.motion.y);
-					if (!mouseAction.left) {
-						mouseAction.pressLeft(sdlEvent.motion.x, sdlEvent.motion.y);
-						mouseAction.pressed = true;
+					mouseInput.start(sdlEvent.motion.x, sdlEvent.motion.y);
+					if (!mouseInput.left) {
+						mouseInput.pressLeft(sdlEvent.motion.x, sdlEvent.motion.y);
+						mouseInput.pressed = true;
 					}
 				}
 				else if (sdlEvent.button.button == SDL_BUTTON_RIGHT){
-					if (!mouseAction.right) {
-						mouseAction.pressRight(sdlEvent.motion.x, sdlEvent.motion.y);
-						mouseAction.pressed = true;
+					if (!mouseInput.right) {
+						mouseInput.pressRight(sdlEvent.motion.x, sdlEvent.motion.y);
+						mouseInput.pressed = true;
 					}
 				}
 				break;
 			case SDL_MOUSEBUTTONUP:
-				mouseAction.reset();
+				if (sdlEvent.button.button = SDL_BUTTON_LEFT) {
+					if (mouseInput.started) { // pushing it one last time before reset
+						Input a{DRAG, 5, true};
+						a.ranges.push_back(mouseInput.startX);
+						a.ranges.push_back(mouseInput.startY);
+						a.ranges.push_back(mouseInput.endX);
+						a.ranges.push_back(mouseInput.endY);
+						a.ranges.push_back(true);
+						wrapper.inputs.push_back(a);
+					}
+					mouseInput.reset();
+				}
 				break;
 			case SDL_MOUSEMOTION:
 				if (sdlEvent.motion.state & SDL_BUTTON_LMASK) {
-					mouseAction.update(sdlEvent.motion.xrel, sdlEvent.motion.yrel);					
+					mouseInput.update(sdlEvent.motion.xrel, sdlEvent.motion.yrel);
 				}
 				break;
 		}
 	}
-	if (mouseAction.isDrag()) { // DRAG, startX, startY, endX, endY, finished (0 or 1)
-		wrapper.mouseActions.push_back(DRAG);
-		wrapper.mouseActions.push_back(mouseAction.startX);
-		wrapper.mouseActions.push_back(mouseAction.startY);
-		wrapper.mouseActions.push_back(mouseAction.endX);
-		wrapper.mouseActions.push_back(mouseAction.endY);
-		wrapper.mouseActions.push_back(mouseAction.finished);
+	if (mouseInput.isDrag()) { // DRAG, startX, startY, endX, endY, finished (0 or 1)
+		Input a{ DRAG, 5, true };
+		a.ranges.push_back(mouseInput.startX);
+		a.ranges.push_back(mouseInput.startY);
+		a.ranges.push_back(mouseInput.endX);
+		a.ranges.push_back(mouseInput.endY);
+		a.ranges.push_back(mouseInput.finished);
+		wrapper.inputs.push_back(a);
 	}
-	else if (mouseAction.pressed) { // LEFT or RIGHT, x, y
-		if (mouseAction.left) {
-			wrapper.mouseActions.push_back(LEFT_PRESS);
+	else if (mouseInput.pressed) { // LEFT or RIGHT, x, y
+		if (mouseInput.left) {
+			Input a{ LEFT_PRESS, 2, true };
+			a.ranges.push_back(mouseInput.clickCoordX);
+			a.ranges.push_back(mouseInput.clickCoordY);
+			wrapper.inputs.push_back(a);
 		}
-		else if (mouseAction.right) {
-			wrapper.mouseActions.push_back(RIGHT_PRESS);
+		else if (mouseInput.right) {
+			Input a{ RIGHT_PRESS, 2, true };
+			a.ranges.push_back(mouseInput.clickCoordX);
+			a.ranges.push_back(mouseInput.clickCoordY);
+			wrapper.inputs.push_back(a);
 		}
-		wrapper.mouseActions.push_back(mouseAction.clickCoordX);
-		wrapper.mouseActions.push_back(mouseAction.clickCoordY);
 	}
 	int posX, posY;
 	SDL_GetMouseState(&posX, &posY);
-	wrapper.mouseActions.push_back(CURRENT_POS); // CURRENT_POS then final x, y mouse position in this frame
-	wrapper.mouseActions.push_back(posX);
-	wrapper.mouseActions.push_back(posY);
+	Input a{ CURRENT_POS, 2, true };
+	a.ranges.push_back(posX);
+	a.ranges.push_back(posY);
+	wrapper.inputs.push_back(a);
 	return wrapper;
 }
 

@@ -100,6 +100,12 @@
     <Filter Include="Source Files\input\context">
       <UniqueIdentifier>{bfff4ce7-04e7-44c9-95ea-faa6f5f3abfe}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\util\lib">
+      <UniqueIdentifier>{90a05038-2e55-466e-8977-f76021f24b8e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\util\lib">
+      <UniqueIdentifier>{3d6f77af-7b37-40de-bbca-4db191ea50e1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animation.cpp">
@@ -216,6 +222,18 @@
     <ClCompile Include="ContextManager.cpp">
       <Filter>Source Files\input\context</Filter>
     </ClCompile>
+    <ClCompile Include="MainContext.cpp">
+      <Filter>Source Files\input\context</Filter>
+    </ClCompile>
+    <ClCompile Include="DragSquare.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="ID.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="pugixml.cpp">
+      <Filter>Source Files\util\lib</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="EntityFragmentShader2.frag">
@@ -284,9 +302,6 @@
       <Filter>Header Files\terrain</Filter>
     </ClInclude>
     <ClInclude Include="Util.h">
-      <Filter>Header Files\util</Filter>
-    </ClInclude>
-    <ClInclude Include="stb_image.h">
       <Filter>Header Files\util</Filter>
     </ClInclude>
     <ClInclude Include="UBO.h">
@@ -379,5 +394,25 @@
     <ClInclude Include="MainContext.h">
       <Filter>Header Files\input\context</Filter>
     </ClInclude>
+    <ClInclude Include="DragSquare.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="ID.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="pugiconfig.hpp">
+      <Filter>Header Files\util\lib</Filter>
+    </ClInclude>
+    <ClInclude Include="pugixml.hpp">
+      <Filter>Header Files\util\lib</Filter>
+    </ClInclude>
+    <ClInclude Include="stb_image.h">
+      <Filter>Header Files\util\lib</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="MainContext.xml">
+      <Filter>Resource Files</Filter>
+    </Xml>
   </ItemGroup>
 </Project>

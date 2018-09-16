@@ -38,7 +38,7 @@ bool BoundingBox::contains(BoundingBox & b) {
 	return true;
 }
 
-bool BoundingBox::inside(float xStart, float zStart, float xEnd, float zEnd) {
+bool BoundingBox::within(float xStart, float zStart, float xEnd, float zEnd) {
 	float xMax, xMin, zMax, zMin;
 	if (xStart < xEnd) {
 		xMax = xEnd;
@@ -119,4 +119,14 @@ bool BoundingBox::collide(BoundingBox & b) {
 	return (minDimension.x <= b.maxDimension.x && maxDimension.x >= b.minDimension.x) && 
 		   (minDimension.y <= b.maxDimension.y && maxDimension.y >= b.minDimension.y) && 
 		   (minDimension.z <= b.maxDimension.z && maxDimension.z >= b.minDimension.z);
+}
+
+bool BoundingBox::overlap(float xStart, float zStart, float xEnd, float zEnd) {
+	if (xStart > maxDimension.x || xEnd < minDimension.x) {
+		return false;
+	}
+	if (zStart > maxDimension.z || zEnd < minDimension.z) {
+		return false;
+	}
+	return true;
 }

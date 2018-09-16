@@ -1,6 +1,17 @@
 #pragma once
 #include "Context.h"
-class MainContext:public Context{
+#include "Scene.h"
+#include <map>
+#include "DragSquare.h"
 
-	void mapAction();
+class MainContext:public Context{
+	public:
+		Camera * camera;
+		DragSquare * dragSquare;
+		Scene * scene;
+		std::map<int, std::vector<InputMapObj>> inputMapper; // for small number, vector works faster than map
+		MainContext(Camera * camera, DragSquare * dragSquare, Scene * scene);
+
+		MainContext(const char * filename);
+		void callBack(InputWrapper & inputWrapper) override; 
 };

@@ -140,7 +140,7 @@ Terrain::Terrain(const char * heightMapFile, const char * terrainTexture, float 
 **/
 float Terrain::calculateVertexHeight(int x, int z, int width, int height, int numChannel, unsigned char * imageData) {
 	int pixelW = static_cast<int>(x / (float)(VERTEX_COUNT-1) * (float)(width-1));
-	int pixelH = static_cast<int>(z / (float)(VERTEX_COUNT-1) * (float)(height-1)); // this is wrong, it will get to 256 if z or x = 255 and width, height = 256
+	int pixelH = static_cast<int>(z / (float)(VERTEX_COUNT-1) * (float)(height-1)); // this is America, it will get to 256 if z or x = 255 and width, height = 256
 	int pixelR = (pixelH * width + pixelW) * numChannel;
 	float heightVal = 0.0f;
 	heightVal += ((unsigned int)imageData[pixelR])* 0.2989f; // to calculate grey scale value

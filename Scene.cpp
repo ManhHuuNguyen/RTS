@@ -1,15 +1,18 @@
 #include "Scene.h"
 
+int Scene::ID = ID::SCENE_ID;
+
 Scene::~Scene() {
 	delete octree;
 }
 
-Scene::Scene() :terrainRenderer(), entityRenderer(), guiRenderer(), healthbarRenderer(), boundingboxRenderer() {
+Scene::Scene(Camera * camera) :terrainRenderer(), entityRenderer(), guiRenderer(), healthbarRenderer(), boundingboxRenderer() {
 	//loadDataToUBO();
 	glm::vec3 minDimension = glm::vec3(-CONSTANT::WORLD_SIZE / 2.0f);
 	glm::vec3 maxDimension = glm::vec3(CONSTANT::WORLD_SIZE / 2.0f);
 	BoundingBox worldBound{minDimension, maxDimension};
 	octree = new Octree{worldBound};
+	this->camera = camera;
 }
 
 void Scene::addEntity(Entity * entity) {
@@ -45,8 +48,8 @@ void Scene::loadDataToUBO() {
 	uniformBlocks.insert(std::pair<const std::string, glWrapper::UBO>("MatrixBlock", matrixBlock));
 }
 
-void Scene::update(long long elapsedMilliseconds, Camera & camera) {
-	Frustum viewFrustum{ camera };
+void Scene::update(long long elapsedMilliseconds) {
+	Frustum viewFrustum{ *camera };
 	for (auto & modelEntities: entityRenderer.entities){
 		modelEntities.second.clear(); // clearing all objects being rendered in 
 		//last frame to make way for all objects to be rendered in this frame
@@ -55,9 +58,9 @@ void Scene::update(long long elapsedMilliseconds, Camera & camera) {
 	//entityRenderer.update(elapsedMilliseconds);
 }
 
-void Scene::render(long long elapsedMilliseconds, Camera & camera, std::set<Entity *> & chosenOnes) {
-	glm::vec3 eyePos = glm::vec3(camera.eyePosition);
-	glm::mat4 cameraMat = camera.getViewMatrix();
+void Scene::render(long long elapsedMilliseconds) {
+	glm::vec3 eyePos = glm::vec3(camera->eyePosition);
+	glm::mat4 cameraMat = camera->getViewMatrix();
 	glm::mat4 cameraSkyboxMat = glm::mat4(glm::mat3(cameraMat)); 
 	glm::vec4 fogColor = glm::vec4(0.5f, 0.5f, 0.5f, 1.0f);
 	// camera mat brings camera to origin then rotate to align look, right, up with x, y, -z. 
@@ -116,9 +119,39 @@ void Scene::loadFogToShader(unsigned int PROGRAM, glm::vec4 fogColor, float grad
 
 IntersectionRecord Scene::mousePick(Ray & ray) {
 	IntersectionRecord intersectionRecord{};
-	octree->hit(ray, &intersectionRecord);
+	octree->hitRecursive(ray, &intersectionRecord);
 	if (intersectionRecord.e_ptr == nullptr) {
 		ray.intersectPlane(Plane{ glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f)}, intersectionRecord);
 	}
 	return intersectionRecord;
+}
+
+IntersectionRecord Scene::mouseIntersectTerrain(Ray & r) {
+	IntersectionRecord intersectionRecord{};
+	r.intersectPlane(Plane{ glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f) }, intersectionRecord);
+	return intersectionRecord;
+}
+
+Ray getMouseRay(int x, int y, Camera * camera) { // just multiplying the ray with the inverse of matrices to get back to world coord
+	float normalizedDeviceX = 2.0f * x / CONSTANT::WIDTH_DISPLAY - 1.0f;
+	float normalizedDeviceY = 1.0f - 2.0f * y / CONSTANT::HEIGHT_DISPLAY;
+	glm::vec4 rayClip = glm::vec4(normalizedDeviceX, normalizedDeviceY, -1.0f, 1.0f);
+	glm::vec4 rayEye = CONSTANT::INV_PROJECTION_MATRIX * rayClip;
+	rayEye = glm::vec4(rayEye.x, rayEye.y, -1.0f, 0.0f);
+	glm::vec3 rayWorld = glm::normalize(glm::vec3(glm::inverse(camera->getViewMatrix()) * rayEye));
+	return Ray{ glm::vec3(camera->eyePosition), rayWorld };
+}
+
+std::vector<Entity *> Scene::dragSelect(Ray & r1, Ray & r2, Ray & r3, Ray & r4) {
+	std::vector<Entity *> chosens;
+	IntersectionRecord record1 = mouseIntersectTerrain(r1);
+	IntersectionRecord record2 = mouseIntersectTerrain(r2);
+	IntersectionRecord record3 = mouseIntersectTerrain(r3);
+	IntersectionRecord record4 = mouseIntersectTerrain(r4);
+	float minX = std::min(std::min(std::min(record1.groundHitPoint.x, record2.groundHitPoint.x), record3.groundHitPoint.x), record4.groundHitPoint.x);
+	float maxX = std::max(std::max(std::max(record1.groundHitPoint.x, record2.groundHitPoint.x), record3.groundHitPoint.x), record4.groundHitPoint.x);
+	float minZ = std::min(std::min(std::min(record1.groundHitPoint.y, record2.groundHitPoint.y), record3.groundHitPoint.y), record4.groundHitPoint.y);
+	float maxZ = std::max(std::max(std::max(record1.groundHitPoint.y, record2.groundHitPoint.y), record3.groundHitPoint.y), record4.groundHitPoint.y);
+	octree->dragSelectRecursive(chosens, minX, minZ, maxX, maxZ);
+	return chosens;
 }

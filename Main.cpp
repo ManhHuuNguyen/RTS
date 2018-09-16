@@ -14,6 +14,8 @@
 #include "Mouse.h"
 #include "InputManager.h"
 #include "ContextManager.h"
+#include "MainContext.h"
+#include "DragSquare.h"
 
 
 void setUpGLContext();
@@ -27,22 +29,16 @@ void freeResources(std::map<std::string, Model *> & models, std::map<std::string
 
 int main(int argc, char *argv[]) {
 	// setting up window and context
-	std::set<Entity *> chosenOnes;
 	setUpGLContext();
 	SDL_Window * window = SDL_CreateWindow("Diodeas", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, CONSTANT::WIDTH_DISPLAY, CONSTANT::HEIGHT_DISPLAY, SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
 	SDL_GLContext glContext = SDL_GL_CreateContext(window);
 	setUpGLMain();
-	InputManager inputManager{};
 	
-	Scene scene{};
+	
+	
 	Camera camera{ 0.785f, 90.0f };
-
-	// loading contexts
-	ContextManager contextManager{};
-	Context mainContext{true};
-	contextManager.addContext(&mainContext);
-	mainContext.registerCallback(&camera);
-
+	Scene scene{&camera};
+	
 	// resources loading
 	std::map<std::string, Model *> models;
 	std::map<std::string, Terrain *> terrains;
@@ -53,11 +49,9 @@ int main(int argc, char *argv[]) {
 	loadTerrains(terrains);
 	loadTerrainTiles(terrains, scene);
 	
-	Mouse mouse{window};
-
 	// load entities
 
-	GUI dragSquare{guis["DRAG_SQUARE"], 0, 0, 0, 0};
+	DragSquare dragSquare{guis["DRAG_SQUARE"]};
 	scene.guiRenderer.addGUI(&dragSquare);
 	
 	Worker steve1{ models["RUNNING_MODEL"], glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f) };
@@ -85,17 +79,25 @@ int main(int argc, char *argv[]) {
 	scene.addEntity(&steve10);
 
 	scene.octree->updateTree();
+
 	
-	long long totalMilliSeconds = 0;
-	int totalFrameDrawn = 0;
+	InputManager inputManager{};
+	Mouse mouse{ window };
+
+	// loading contexts
+	ContextManager contextManager{};
+	MainContext mainContext{ &camera, &dragSquare, &scene};
+	MainContext mainContext2{"MainContext.xml"};
+	contextManager.addContext(&mainContext);
+	
+	long long TOTAL_MILLI_SECS = 0;
+	int TOTAL_FRAME_DRAWN = 0;
 	bool QUIT = false;
 	GameClock gameClock{};
 	SDL_Event sdlEvent;
 	
-	
 	while (!QUIT) {
 		std::vector<SDL_Event> sdlEvents;
-		
 		while (SDL_PollEvent(&sdlEvent) != 0) { // if key is pressed
 			if (sdlEvent.type == SDL_QUIT) {
 				QUIT = true;
@@ -108,36 +110,16 @@ int main(int argc, char *argv[]) {
 		
 		contextManager.dispatch(inputWrapper);
 		
-		dragSquare.updateModelMat(inputManager.mouseAction.startX, inputManager.mouseAction.startY, inputManager.mouseAction.endX, inputManager.mouseAction.endY);
-		//IntersectionRecord hitRecord = scene.mousePick(mouseRay);
-		/*if (hitRecord.e_ptr != nullptr) {
-			if (chosenOnes.count(hitRecord.e_ptr) != 0) {
-				chosenOnes.erase(hitRecord.e_ptr);
-			}
-			else {
-				chosenOnes.insert(hitRecord.e_ptr);
-			}
-				
-		}
-		
-		
-		if (chosenOnes.size() > 0 && hitRecord.e_ptr == nullptr && hitRecord.groundHitPoint.x <= CONSTANT::WORLD_SIZE) {
-			for (auto pickedEntity : chosenOnes) {
-				pickedEntity->moveToward(hitRecord.groundHitPoint.x, hitRecord.groundHitPoint.y);
-			}
-				
-		}*/
-		
 		long long elapsedMilliSeconds = gameClock.getTimePast();
-		totalMilliSeconds += elapsedMilliSeconds;
-		totalFrameDrawn += 1;
-		scene.update(elapsedMilliSeconds, camera);
+		TOTAL_MILLI_SECS += elapsedMilliSeconds;
+		TOTAL_FRAME_DRAWN += 1;
+		scene.update(elapsedMilliSeconds);
 		// draw calls
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		scene.render(elapsedMilliSeconds, camera, chosenOnes);
+		scene.render(elapsedMilliSeconds);
 		SDL_GL_SwapWindow(window);
-		/*if (totalMilliSeconds / 1000.0f >= 1) {
-			std::cout << "FPS: " << (float)totalFrameDrawn / totalMilliSeconds * 1000 << std::endl;
+		/*if (TOTAL_MILLI_SECS / 1000.0f >= 1) {
+			std::cout << "FPS: " << (float)TOTAL_FRAME_DRAWN / TOTAL_MILLI_SECS * 1000 << std::endl;
 		}*/
 	}
 	SDL_DestroyWindow(window);

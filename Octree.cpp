@@ -223,7 +223,7 @@ void Octree::remove(Entity * entity) {
 	objects.erase(std::remove(objects.begin(), objects.end(), entity), objects.end());
 }
 
-void Octree::hit(Ray & ray, IntersectionRecord * record) { // this is recursive method
+void Octree::hitRecursive(Ray & ray, IntersectionRecord * record) { // this is recursive method
 	if (objects.size() == 0 && activeNodes == 0) {
 		return;
 	}
@@ -240,7 +240,7 @@ void Octree::hit(Ray & ray, IntersectionRecord * record) { // this is recursive 
 	}
 	for (int k = 0; k < 8; k++) {
 		if ((activeNodes & (1 << k)) != 0 && intersect(ray, &hitDepth, childNodes[k]->region)) {
-			childNodes[k]->hit(ray, record);
+			childNodes[k]->hitRecursive(ray, record);
 		}
 	}
 }
@@ -275,4 +275,24 @@ bool Octree::intersect(Ray & r, float * hitDepth, BoundingBox & box) {
 
 	*hitDepth = tmin;
 	return true;
+}
+
+void Octree::dragSelectRecursive(std::vector<Entity *> & chosens, float minX, float minY, float maxX, float maxY) {
+	if (objects.size() == 0 && activeNodes == 0) {
+		return;
+	}
+	if (region.overlap(minX, minY, maxX, maxY)) {
+		for (int i = 0; i < objects.size(); i++) {
+			glm::mat4 modelMat = objects[i]->getModelMat();
+			BoundingBox b = objects[i]->boundingBox.move(modelMat);
+			if (b.within(minX, minY, maxX, maxY)) {
+				chosens.push_back(objects[i]);
+			}
+		}
+		for (int k = 0; k < 8; k++) {
+			if ((activeNodes & (1 << k)) != 0) {
+				childNodes[k]->dragSelectRecursive(chosens, minX, minY, maxX, maxY);
+			}
+		}
+	}
 }

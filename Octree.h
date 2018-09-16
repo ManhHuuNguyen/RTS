@@ -29,13 +29,14 @@ class Octree {
 		Octree(BoundingBox & boundingBox, Entity * entity);
 		Octree(BoundingBox & boundingBox, std::vector<Entity *> & objList);
 		Octree(BoundingBox & boundingBox);
-		void hit(Ray & ray, IntersectionRecord * record);
+		void hitRecursive(Ray & ray, IntersectionRecord * record);
 		void addEntityToQueue(Entity * entity); // only used before tree is built
 		void updateTree(); // update the tree, flushing pending queue
 		void update(float elapsedSeconds, EntityRenderer & entityRenderer, Frustum & viewFrustum);
 		void buildTree();
 		void insertEntity(Entity * entity);
 		void remove(Entity * entity);
+		void dragSelectRecursive(std::vector<Entity *> & chosens, float minX, float minY, float maxX, float maxY);
 		~Octree();
 
 		static bool intersect(Ray & ray, float * hitDepth, BoundingBox & box);

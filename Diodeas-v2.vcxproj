@@ -183,14 +183,17 @@
     <ClCompile Include="ContextManager.cpp" />
     <ClCompile Include="CubeMap.cpp" />
     <ClCompile Include="Destination.cpp" />
+    <ClCompile Include="DragSquare.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="EntityRenderer.cpp" />
     <ClCompile Include="Frustum.cpp" />
     <ClCompile Include="GameClock.cpp" />
     <ClCompile Include="GUIRenderer.cpp" />
     <ClCompile Include="HealthBarRenderer.cpp" />
+    <ClCompile Include="ID.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="MainContext.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Model.cpp" />
@@ -198,6 +201,7 @@
     <ClCompile Include="MovingUnit.cpp" />
     <ClCompile Include="Octree.cpp" />
     <ClCompile Include="Plane.cpp" />
+    <ClCompile Include="pugixml.cpp" />
     <ClCompile Include="Ray.cpp" />
     <ClCompile Include="Worker.cpp" />
     <ClCompile Include="Scene.cpp" />
@@ -236,6 +240,7 @@
     <ClInclude Include="ContextManager.h" />
     <ClInclude Include="CubeMap.h" />
     <ClInclude Include="Destination.h" />
+    <ClInclude Include="DragSquare.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EntityRenderer.h" />
     <ClInclude Include="FollowCamera.h" />
@@ -243,6 +248,7 @@
     <ClInclude Include="GameClock.h" />
     <ClInclude Include="GUIRenderer.h" />
     <ClInclude Include="HealthBarRenderer.h" />
+    <ClInclude Include="ID.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="IntersectionRecord.h" />
     <ClInclude Include="Joint.h" />
@@ -255,6 +261,8 @@
     <ClInclude Include="MovingUnit.h" />
     <ClInclude Include="Octree.h" />
     <ClInclude Include="Plane.h" />
+    <ClInclude Include="pugiconfig.hpp" />
+    <ClInclude Include="pugixml.hpp" />
     <ClInclude Include="Ray.h" />
     <ClInclude Include="Worker.h" />
     <ClInclude Include="Scene.h" />
@@ -267,6 +275,9 @@
     <ClInclude Include="UBO.h" />
     <ClInclude Include="Util.h" />
     <ClInclude Include="Vertex.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="MainContext.xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

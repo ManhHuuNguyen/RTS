@@ -7,7 +7,10 @@ GUI::GUI(Texture * texture, int startX, int startY, int endX, int endY) {
 
 glm::mat4 GUI::getModelMat() {
 	return glm::translate(glm::vec3(position, 0.0f)) * glm::scale(glm::vec3(scale, 1.0f));
-	//return glm::scale(glm::vec3(scale, 1.0f));
+}
+
+void GUI::handleEvents(InputWrapper & inputWrapper) {
+
 }
 
 void GUI::updateModelMat(int startX, int startY, int endX, int endY) {// convert screen pixel to normalized device coordinate (-1, 1)

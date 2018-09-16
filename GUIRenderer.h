@@ -6,8 +6,9 @@
 #include "Shader.h"
 #include "glm\gtx\transform.hpp"
 #include "glm\gtc\type_ptr.hpp"
+#include "CallbackInterface.h"
 
-class GUI {
+class GUI:public CallbackInterface {
 	
 	public:
 		Texture * texture;
@@ -17,11 +18,10 @@ class GUI {
 		GUI(Texture * texture, int startX, int startY, int endX, int endY); // pixel on screen
 		glm::mat4 getModelMat();
 		void updateModelMat(int startX, int startY, int endX, int endY); // pixel on screen
+		virtual void handleEvents(InputWrapper & inputWrapper);
 };
 
-class DragSquare: public GUI {
 
-};
 
 class GUIRenderer {
 	// top left of screen is 0, 0

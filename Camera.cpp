@@ -1,6 +1,7 @@
 #include "Camera.h"
 
 float Camera::cameraSpeed = 10*0.00005f;
+int Camera::ID = ID::CAMERA_ID;
 
 Camera::Camera() { // it will be a camera looking straight downward
 	eyePosition = glm::vec4(0.0f, 80.0f, 0.0f, 1.0f);
@@ -45,7 +46,7 @@ void Camera::normalizeLRU() {
 }
 
 // im doing this because of the way I'm calculating look, right, up vectors of camera. It should be changed 
-void Camera::moveByMouse(float mouseX, float mouseY) {
+void Camera::moveByMouse(int mouseX, int mouseY) {
 	float relX = mouseX - CONSTANT::WIDTH_DISPLAY / 2.0f;
 	float relY = mouseY - CONSTANT::HEIGHT_DISPLAY / 2.0f;
 
@@ -63,39 +64,29 @@ glm::mat4 Camera::getViewMatrix() {
 }
 
 void Camera::handleEvents(InputWrapper & inputWrapper) {
-	for (int i = 0; i < inputWrapper.keyActions.size(); i++) {
-		switch (inputWrapper.keyActions[i]) {
-		case SDLK_w:
-			rotate(glm::vec3(1.0f, 0.0f, 0.0f), -0.1f);
-			break;
-		case SDLK_s:
-			rotate(glm::vec3(1.0f, 0.0f, 0.0f), 0.1f);
-			break;
-		case SDLK_a:
-			rotate(glm::vec3(0.0f, 1.0f, 0.0f), -0.1f);
-			break;
-		case SDLK_d:
-			rotate(glm::vec3(0.0f, 1.0f, 0.0f), 0.1f);
-			break;
+	for (int i = 0; i < inputWrapper.inputs.size(); i++) {
+		if (!inputWrapper.inputs[i].fromMouse) {
+			switch (inputWrapper.inputs[i].inputID) {
+			case SDLK_w:
+				rotate(glm::vec3(1.0f, 0.0f, 0.0f), -0.1f);
+				break;
+			case SDLK_s:
+				rotate(glm::vec3(1.0f, 0.0f, 0.0f), 0.1f);
+				break;
+			case SDLK_a:
+				rotate(glm::vec3(0.0f, 1.0f, 0.0f), -0.1f);
+				break;
+			case SDLK_d:
+				rotate(glm::vec3(0.0f, 1.0f, 0.0f), 0.1f);
+				break;
+			}
 		}
-	}
-	int counter = 0;
-	while (counter < inputWrapper.mouseActions.size()) {
-		int actionType = inputWrapper.mouseActions[counter];
-		if (actionType == InputManager::DRAG) {
-			counter += 5;
+		else {
+			if (inputWrapper.inputs[i].inputID == InputManager::CURRENT_POS) {
+				moveByMouse(inputWrapper.inputs[i].ranges[0], inputWrapper.inputs[i].ranges[1]);
+			}
 		}
-		else if (actionType == InputManager::LEFT_PRESS) {
-			counter += 2;
-		}
-		else if (actionType == InputManager::RIGHT_PRESS) {
-			counter += 2;
-		}
-		else if (actionType == InputManager::CURRENT_POS) {
-			moveByMouse((float)inputWrapper.mouseActions[counter+1], (float)inputWrapper.mouseActions[counter+2]);
-			counter += 2;
-		}
-		counter += 1;
+		
 	}
 }
 

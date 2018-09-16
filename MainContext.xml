@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MainContext>
+
+  <object id="2" name="Camera">
+	  <action name="rotate-up">
+		  <key type="char">w</key>
+		  <value>0</value>
+      <num-follow>0</num-follow>
+	  </action>
+	  <action name="rotate-down">
+		  <key type="char">s</key>
+		  <value>1</value>
+      <num-follow>0</num-follow>
+	  </action>
+	  <action name="rotate-cw-y">
+		  <key type="char">a</key>
+		  <value>2</value>
+      <num-follow>0</num-follow>
+	  </action>
+	  <action name="rotate-ccw-y">
+		  <key type="char">d</key>
+		  <value>3</value>
+      <num-follow>0</num-follow>
+	  </action>
+	  <action name="move">
+		  <key type="int">0</key>
+		  <value>4</value>
+      <num-follow>2</num-follow>
+	  </action>
+  </object>
+  
+  <object id="0" name="Scene">
+    <action name="LEFT_PRESS">
+      <key type="int">1</key>
+      <value>1</value>
+      <num-follow>2</num-follow>
+    </action>
+    <action name="RIGHT_PRESS">
+      <key type="int">2</key>
+      <value>2</value>
+      <num-follow>2</num-follow>
+    </action>
+    <action name="DRAG">
+      <key type="int">3</key>
+      <value>3</value>
+      <num-follow>5</num-follow>
+    </action>
+  </object>
+
+  <object id="1" name="DragSquare">
+    <action name="DRAG">
+      <key type="int">3</key>
+      <value>3</value>
+      <num-follow>5</num-follow>
+    </action>
+  </object>
+
+</MainContext>

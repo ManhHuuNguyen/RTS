@@ -4,7 +4,7 @@
 #include <iostream>
 
 
-class MouseAction {
+class MouseInput {
 	public:
 		// variable for drag select
 		int startX = -1;
@@ -29,10 +29,20 @@ class MouseAction {
 		void pressRight(int x, int y);
 };
 
+class Input {
+	public:
+		int inputID;
+		std::vector<int> ranges;
+		std::vector<float> floatRanges;
+		int numFollow;
+		bool fromMouse;
+
+		Input(int inputID, int numFollow, bool fromMouse);
+};
+
 class InputWrapper {
 	public:
-		std::vector<int> keyActions;
-		std::vector<int> mouseActions;
+		std::vector<Input> inputs;
 };
 
 class InputManager {
@@ -42,7 +52,9 @@ class InputManager {
 		static int LEFT_PRESS;
 		static int RIGHT_PRESS;
 		static int CURRENT_POS;
-		MouseAction mouseAction;
+		static int LEFT_UP;
+		static int RIGHT_UP;
+		MouseInput mouseInput;
 
 		InputWrapper convertToActions(std::vector<SDL_Event> & events);
 };
