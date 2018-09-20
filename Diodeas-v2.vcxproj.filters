@@ -412,6 +412,9 @@
     <ClInclude Include="stb_image.h">
       <Filter>Header Files\util\lib</Filter>
     </ClInclude>
+    <ClInclude Include="TownCenter..h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="contexts\MainContext.xml">

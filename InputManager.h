@@ -24,7 +24,8 @@ class MouseInput {
 		void start(int startX, int startY);
 		void update(int relX, int relY);
 		bool isDrag();
-		void reset();
+		void resetDrag();
+		void resetClick();
 		void pressLeft(int x, int y);
 		void pressRight(int x, int y);
 };

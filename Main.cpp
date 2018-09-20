@@ -57,7 +57,7 @@ int main(int argc, char *argv[]) {
 	Worker steve1{ models["RUNNING_MODEL"], glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f) };
 	scene.addEntity(&steve1);
 
-	Worker steve4{ models["RUNNING_MODEL"], glm::vec3(0.0f, 1.57f, 0.0f), glm::vec3(10.0f, 0.0f, 20.0f), glm::vec3(1.0f, 1.0f, 1.0f) };
+	Worker steve4{ models["TOWNCENTER_MODEL"], glm::vec3(0.0f, 1.57f, 0.0f), glm::vec3(10.0f, 0.0f, 20.0f), glm::vec3(0.1f, 0.1f, 0.1f) };
 	scene.addEntity(&steve4);
 
 	Worker steve5{ models["RUNNING_MODEL"], glm::vec3(0.0f, 1.57f, 0.0f), glm::vec3(50.0f, 0.0f, 20.0f), glm::vec3(1.0f, 1.0f, 1.0f) };
@@ -147,8 +147,8 @@ void loadModels(std::map<std::string, Model *> & models, Assimp::Importer & impo
 	models.insert(std::pair<std::string, Model *>("CHICKEN_MODEL", CHICKEN_MODEL));*/
 	Model * RUNNING_MODEL = new Model{ "resources/running-model/running_model.dae", importer, true };
 	models.insert(std::pair<std::string, Model *>("RUNNING_MODEL", RUNNING_MODEL));
-	Model * STEVE = new Model{"resources/steve-obj/steve.obj", importer, true};
-	models.insert(std::pair<std::string, Model *>("STEVE", STEVE));
+	Model * TOWNCENTER_MODEL = new Model{"resources/town_center/WoodenCabinObj.obj", importer, true};
+	models.insert(std::pair<std::string, Model *>("TOWNCENTER_MODEL", TOWNCENTER_MODEL));
 	/*Model * TREE_MODEL = new Model{"resources/tree/Tree.fbx", importer, true};
 	models.insert(std::pair<std::string, Model *>("TREE_MODEL", TREE_MODEL));*/
 }

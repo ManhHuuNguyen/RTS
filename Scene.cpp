@@ -144,7 +144,6 @@ void Scene::handleEvents(std::vector<Action> & actions) {
 					std::vector<Entity *> chosens = dragSelect(startX, startY, endX, endY);
 					if (chosens.size() > 0) {
 						chosenOnes.clear();
-						std::cout << "Scene: Drag and clear" << std::endl;
 						for (int i = 0; i < chosens.size(); i++) {
 							chosenOnes.insert(chosens[i]);
 						}

@@ -265,6 +265,7 @@
     <ClInclude Include="pugiconfig.hpp" />
     <ClInclude Include="pugixml.hpp" />
     <ClInclude Include="Ray.h" />
+    <ClInclude Include="TownCenter..h" />
     <ClInclude Include="Worker.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Shader.h" />
