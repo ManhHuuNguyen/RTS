@@ -87,7 +87,6 @@ int main(int argc, char *argv[]) {
 	// loading contexts
 	ContextManager contextManager{};
 	MainContext mainContext{ &camera, &dragSquare, &scene};
-	MainContext mainContext2{"MainContext.xml"};
 	contextManager.addContext(&mainContext);
 	
 	long long TOTAL_MILLI_SECS = 0;

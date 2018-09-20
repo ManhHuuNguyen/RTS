@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MainContext>
+
+  <action key="W" type="kb">
+    <object id="2" name="Camera"></object>
+  </action>
+  
+	<action key="S" type="kb">
+    <object id="2" name="Camera"></object>
+  </action>
+  
+  <action key="A" type="kb">
+    <object id="2" name="Camera"></object>
+  </action>
+  
+  <action key="D" type="kb">
+    <object id="2" name="Camera"></object>
+  </action>
+
+  <action key="B" type="kb">
+    <object id="3" name="Worker"></object>
+  </action>
+
+  <action key="C" type="kb">
+    <object id="3" name="Worker"></object>
+  </action>
+  
+  <action key="0" type="mouse">
+    <object id="2" name="Camera"></object>
+  </action>
+
+  <action key="1" type="mouse">
+    <object id="0" name="Scene"></object>
+  </action>
+
+  <action key="2" type="mouse">
+    <object id="3" name="Worker"></object>
+  </action>
+  
+  <action key="3" type="mouse">
+    <object id="1" name="DragSquare"></object>
+    <object id="0" name ="Scene"></object>
+  </action>
+ 
+</MainContext>

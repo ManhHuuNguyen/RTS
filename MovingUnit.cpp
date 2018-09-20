@@ -7,7 +7,7 @@ float MovingUnit::linearSpeed = 30.0f; // 30 world unit per second
 float MovingUnit::angularSpeed = 1.57f; // pi radian per second
 int MovingUnit::maxHealth = 50;
 
-MovingUnit::MovingUnit(Model * model, glm::vec3 orientation, glm::vec3 position, glm::vec3 scale):Entity(model, orientation, position, scale) {
+MovingUnit::MovingUnit(Model * model, glm::vec3 orientation, glm::vec3 position, glm::vec3 scale, int id):Entity(model, orientation, position, scale, id) {
 
 }
 

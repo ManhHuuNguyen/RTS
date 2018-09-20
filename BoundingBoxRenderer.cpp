@@ -5,7 +5,7 @@ GLuint BoundingBoxRenderer::indices[24] = {
 	0, 1, 1, 2, 2, 3, 3, 0, 0, 4, 4, 7, 7, 3, 7, 6, 6, 5, 5, 4, 5, 1, 6, 2
 };
 
-BoundingBoxRenderer::BoundingBoxRenderer():boundingboxShader("BoundingBoxVertexShader.vert", "BoundingBoxFragmentShader.frag") {
+BoundingBoxRenderer::BoundingBoxRenderer():boundingboxShader("shaders/BoundingBoxVertexShader.vert", "shaders/BoundingBoxFragmentShader.frag") {
 	addBBToVAO();
 }
 

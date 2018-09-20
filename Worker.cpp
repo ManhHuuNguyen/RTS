@@ -4,9 +4,8 @@
 float Worker::linearSpeed = 10.0f; // 30 world unit per second
 float Worker::angularSpeed = 2*CONSTANT::MT_PI; // pi radian per second
 int Worker::maxHealth = 50;
-int Worker::ID = ID::WORKER_ID;
 
-Worker::Worker(Model * model, glm::vec3 orientation, glm::vec3 position, glm::vec3 scale):MovingUnit(model, orientation, position, scale) {
+Worker::Worker(Model * model, glm::vec3 orientation, glm::vec3 position, glm::vec3 scale):MovingUnit(model, orientation, position, scale, ID::WORKER_ID) {
 
 }
 
@@ -22,22 +21,23 @@ bool Worker::update(float elapsedSeconds) { // true if unit moves or rotates, fa
 	return vChange;
 }
 
-void Worker::handleEvents(InputWrapper & inputWrapper) {
-	for (int i = 0; i < inputWrapper.inputs.size(); i++) {
-		if (inputWrapper.inputs[i].fromMouse) {
-			if (inputWrapper.inputs[i].inputID == InputManager::RIGHT_PRESS) {
-				moveToward(inputWrapper.inputs[i].floatRanges[0], inputWrapper.inputs[i].floatRanges[1]);
+void Worker::handleEvents(std::vector<Action> & actions) {
+	for (int i = 0; i < actions.size(); i++) {
+		if (actions[i].fromMouse) {
+			if (actions[i].key == InputManager::RIGHT_PRESS) {
+				//assert((inputWrapper.inputs[i].floatRanges.size() == 2)); // this is where all goes wrong
+				moveToward(actions[i].floatRanges[0], actions[i].floatRanges[1]);
 			}
 		}
 		else {
-			switch (inputWrapper.inputs[i].inputID) {
-			case SDLK_b:
+			std::string key = actions[i].key;
+			if (key == "B") {
 				std::cout << "Worker is building something" << std::endl;
-				break;
-			case SDLK_c:
-				std::cout << "Worker cancels building" << std::endl;
-				break;
 			}
+			else if (key == "C") {
+				std::cout << "Worker cancels building" << std::endl;
+			}
+			
 		}
 	}
 }

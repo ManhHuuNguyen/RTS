@@ -18,7 +18,7 @@
 #include "Octree.h"
 #include "ID.h"
 
-class Scene {
+class Scene: public CallbackInterface {
 
 	public:
 		
@@ -32,7 +32,6 @@ class Scene {
 		std::map<std::string, glWrapper::UBO> uniformBlocks;
 		Octree * octree;
 		std::set<Entity *> chosenOnes;
-		static int ID;
 		Camera * camera;
 
 		Scene(Camera * camera);
@@ -41,10 +40,11 @@ class Scene {
 		void loadDataToUBO();
 		void update(long long elapsedMilliseconds);
 		void render(long long elapsedMilliseconds);
-		IntersectionRecord mousePick(Ray & ray);
-		IntersectionRecord mouseIntersectTerrain(Ray & r);
-		std::vector<Entity *> dragSelect(Ray & r1, Ray & r2, Ray & r3, Ray & r4);
+		IntersectionRecord mousePick(Ray & ray); // this will have to be rewritten completely when I add terrain 
+		IntersectionRecord mouseIntersectTerrain(Ray & r); // this will have to be rewritten completely when I add terrain
+		std::vector<Entity *> dragSelect(int startX, int startY, int endX, int endY);
 		void loadFogToShader(unsigned int PROGRAM, glm::vec4 fogColor = glm::vec4(1.0), float gradient = 0.0f, float density = 0.0f);
+		void handleEvents(std::vector<Action> & actions) override;
 		~Scene();
 };
 

@@ -1,9 +1,8 @@
 #include "Camera.h"
 
 float Camera::cameraSpeed = 10*0.00005f;
-int Camera::ID = ID::CAMERA_ID;
 
-Camera::Camera() { // it will be a camera looking straight downward
+Camera::Camera():CallbackInterface(ID::CAMERA_ID) { // it will be a camera looking straight downward
 	eyePosition = glm::vec4(0.0f, 80.0f, 0.0f, 1.0f);
 	/*look = glm::vec3(0.0f, 0.0f, -1.0f);
 	right = glm::vec3(1.0f, 0.0f, 0.0f);
@@ -14,7 +13,7 @@ Camera::Camera() { // it will be a camera looking straight downward
 	
 }
 
-Camera::Camera(float radianAngle, float height) { // my camera at initial position looks straight at 0,0,0
+Camera::Camera(float radianAngle, float height) :CallbackInterface(ID::CAMERA_ID) { // my camera at initial position looks straight at 0,0,0
 	float z = height / tanf(radianAngle);//tan(angle) = height/z because there is no x, y component at first. i do it for ease of computing bc im lazy
 	eyePosition = glm::vec4(0.0f, height, z, 1.0f);
 	look = -glm::normalize(glm::vec3(eyePosition));
@@ -22,7 +21,7 @@ Camera::Camera(float radianAngle, float height) { // my camera at initial positi
 	up = glm::cross(right, look); 
 }
 
-Camera::Camera(float eyeX, float eyeY, float eyeZ, float spotX, float spotY, float spotZ, float upX, float upY, float upZ) {
+Camera::Camera(float eyeX, float eyeY, float eyeZ, float spotX, float spotY, float spotZ, float upX, float upY, float upZ) :CallbackInterface(ID::CAMERA_ID) {
 	eyePosition = glm::vec4(eyeX, eyeY, eyeZ, 1.0f);
 	look = glm::vec3(spotX, spotY, spotZ) - glm::vec3(eyePosition);
 	up = glm::vec3(upX, upY, upZ);
@@ -63,27 +62,27 @@ glm::mat4 Camera::getViewMatrix() {
 	return  glm::lookAt(eyePos, eyePos + look, up);
 }
 
-void Camera::handleEvents(InputWrapper & inputWrapper) {
-	for (int i = 0; i < inputWrapper.inputs.size(); i++) {
-		if (!inputWrapper.inputs[i].fromMouse) {
-			switch (inputWrapper.inputs[i].inputID) {
-			case SDLK_w:
+void Camera::handleEvents(std::vector<Action> & actions) {
+	//std::cout << "Camera action size: " << actions.size() << std::endl;
+	for (int i = 0; i < actions.size(); i++) {
+		if (!actions[i].fromMouse) {
+			std::string key = actions[i].key;
+			if (key == "W") {
 				rotate(glm::vec3(1.0f, 0.0f, 0.0f), -0.1f);
-				break;
-			case SDLK_s:
+			}
+			else if (key == "S") {
 				rotate(glm::vec3(1.0f, 0.0f, 0.0f), 0.1f);
-				break;
-			case SDLK_a:
+			}
+			else if (key == "A") {
 				rotate(glm::vec3(0.0f, 1.0f, 0.0f), -0.1f);
-				break;
-			case SDLK_d:
+			}
+			else if (key == "D") {
 				rotate(glm::vec3(0.0f, 1.0f, 0.0f), 0.1f);
-				break;
 			}
 		}
 		else {
-			if (inputWrapper.inputs[i].inputID == InputManager::CURRENT_POS) {
-				moveByMouse(inputWrapper.inputs[i].ranges[0], inputWrapper.inputs[i].ranges[1]);
+			if (actions[i].fromMouse && actions[i].key == InputManager::CURRENT_POS) {
+				moveByMouse(actions[i].intRanges[0], actions[i].intRanges[1]);
 			}
 		}
 		

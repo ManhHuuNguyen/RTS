@@ -9,10 +9,6 @@ glm::mat4 GUI::getModelMat() {
 	return glm::translate(glm::vec3(position, 0.0f)) * glm::scale(glm::vec3(scale, 1.0f));
 }
 
-void GUI::handleEvents(InputWrapper & inputWrapper) {
-
-}
-
 void GUI::updateModelMat(int startX, int startY, int endX, int endY) {// convert screen pixel to normalized device coordinate (-1, 1)
 	int width = abs(startX - endX);
 	int height = abs(startY - endY);
@@ -50,9 +46,13 @@ void GUI::updateModelMat(int startX, int startY, int endX, int endY) {// convert
 	position = glm::vec2(startxNDC - xNDC, startyNDC - yNDC);
 }
 
+ActiveGUI::ActiveGUI(Texture * texture, int startX, int startY, int endX, int endY, int id):GUI(texture, startX, startY, endX, endY), CallbackInterface(id) {
+
+}
+
 float GUIRenderer::vertices[8] = { -1.0f, 1.0f, -1.0f, -1.0f, 1.0f, 1.0f, 1.0f, -1.0f };
 
-GUIRenderer::GUIRenderer() :guiShader("GUIVertexShader.vert", "GUIFragmentShader.frag") {
+GUIRenderer::GUIRenderer() :guiShader("shaders/GUIVertexShader.vert", "shaders/GUIFragmentShader.frag") {
 	glGenVertexArrays(1, &vao);
 	glGenBuffers(1, &vbo);
 	glBindVertexArray(vao);

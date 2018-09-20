@@ -10,9 +10,3 @@ Context::Context(bool active) {
 void Context::registerCallback(CallbackInterface * callback) {
 	callbacks.push_back(callback);
 }
-
-void Context::callBack(InputWrapper & inputWrapper) {
-	for (int i = 0; i < callbacks.size(); i++) {
-		callbacks[i]->handleEvents(inputWrapper);
-	}
-}

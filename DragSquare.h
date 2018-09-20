@@ -2,7 +2,7 @@
 #include "GUIRenderer.h"
 #include "ID.h"
 
-class DragSquare : public GUI { // to be used as drag select
+class DragSquare : public ActiveGUI { // to be used as drag select
 	
 	public:
 		// inbetween are just testing variables
@@ -10,8 +10,7 @@ class DragSquare : public GUI { // to be used as drag select
 		glm::vec2 startPoint2;
 		bool begin = false;
 		// inbetween are just testing variables
-		static int ID;
 		DragSquare(Texture * texture);
-		void handleEvents(InputWrapper & inputWrapper) override;
+		void handleEvents(std::vector<Action> & actions) override;
 		void start();
 };

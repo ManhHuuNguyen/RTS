@@ -1,12 +1,11 @@
 #include "Scene.h"
 
-int Scene::ID = ID::SCENE_ID;
 
 Scene::~Scene() {
 	delete octree;
 }
 
-Scene::Scene(Camera * camera) :terrainRenderer(), entityRenderer(), guiRenderer(), healthbarRenderer(), boundingboxRenderer() {
+Scene::Scene(Camera * camera) :terrainRenderer(), entityRenderer(), guiRenderer(), healthbarRenderer(), boundingboxRenderer(), CallbackInterface(ID::SCENE_ID) {
 	//loadDataToUBO();
 	glm::vec3 minDimension = glm::vec3(-CONSTANT::WORLD_SIZE / 2.0f);
 	glm::vec3 maxDimension = glm::vec3(CONSTANT::WORLD_SIZE / 2.0f);
@@ -142,7 +141,11 @@ Ray getMouseRay(int x, int y, Camera * camera) { // just multiplying the ray wit
 	return Ray{ glm::vec3(camera->eyePosition), rayWorld };
 }
 
-std::vector<Entity *> Scene::dragSelect(Ray & r1, Ray & r2, Ray & r3, Ray & r4) {
+std::vector<Entity *> Scene::dragSelect(int startX, int startY, int endX, int endY) {
+	Ray r1 = getMouseRay(startX, startY, camera);
+	Ray r2 = getMouseRay(startX, endY, camera);
+	Ray r3 = getMouseRay(endX, startY, camera);
+	Ray r4 = getMouseRay(endX, endY, camera);
 	std::vector<Entity *> chosens;
 	IntersectionRecord record1 = mouseIntersectTerrain(r1);
 	IntersectionRecord record2 = mouseIntersectTerrain(r2);
@@ -154,4 +157,38 @@ std::vector<Entity *> Scene::dragSelect(Ray & r1, Ray & r2, Ray & r3, Ray & r4) 
 	float maxZ = std::max(std::max(std::max(record1.groundHitPoint.y, record2.groundHitPoint.y), record3.groundHitPoint.y), record4.groundHitPoint.y);
 	octree->dragSelectRecursive(chosens, minX, minZ, maxX, maxZ);
 	return chosens;
+}
+
+void Scene::handleEvents(std::vector<Action> & actions) {
+
+	for (int i = 0; i < actions.size(); i++) {
+		if (actions[i].fromMouse) {
+			if (actions[i].key == InputManager::DRAG) {
+				if (actions[i].intRanges[4]) {
+					int startX = actions[i].intRanges[0];
+					int startY = actions[i].intRanges[1];
+					int endX = actions[i].intRanges[2];
+					int endY = actions[i].intRanges[3];
+					std::vector<Entity *> chosens = dragSelect(startX, startY, endX, endY);
+					if (chosens.size() > 0) {
+						chosenOnes.clear();
+						for (int i = 0; i < chosens.size(); i++) {
+							chosenOnes.insert(chosens[i]);
+						}
+					}
+				}
+				
+			}
+			else if (actions[i].key == InputManager::LEFT_PRESS) {
+				Ray r = getMouseRay(actions[i].intRanges[0], actions[i].intRanges[1], camera);
+				IntersectionRecord hitRecord = mousePick(r);
+				if (hitRecord.e_ptr != nullptr) {
+					chosenOnes.clear();
+					chosenOnes.insert(hitRecord.e_ptr);
+				}
+
+			}
+		}
+	}
+
 }

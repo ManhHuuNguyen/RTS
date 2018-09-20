@@ -1,6 +1,6 @@
 #include "Entity.h"
 
-Entity::Entity(Model * model, glm::vec3 orientation, glm::vec3 position, glm::vec3 scale):animator(model) {
+Entity::Entity(Model * model, glm::vec3 orientation, glm::vec3 position, glm::vec3 scale, int id):animator(model), CallbackInterface(id) {
 	ModelData & m = model->modelData;
 	boundingBox = BoundingBox{m.minX, m.maxX, m.minY, m.maxY, m.minZ, m.maxZ };
 	

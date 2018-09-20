@@ -1,6 +1,6 @@
 #include "EntityRenderer.h"
 
-EntityRenderer::EntityRenderer() :entityShader("EntityVertexShader2.vert", "EntityFragmentShader2.frag"){
+EntityRenderer::EntityRenderer() :entityShader("shaders/EntityVertexShader2.vert", "shaders/EntityFragmentShader2.frag"){
 	
 }
 

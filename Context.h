@@ -11,14 +11,6 @@ class Context {
 		Context(bool active);
 		std::vector<CallbackInterface *> callbacks;
 		void registerCallback(CallbackInterface * callback);
-		virtual void callBack(InputWrapper & inputWrapper);
+		virtual void callBack(InputWrapper & inputWrapper) = 0;
 
-};
-
-struct InputMapObj {
-	bool isChar;
-	char charKey;
-	int intKey;
-	int value;
-	int numFollow;
 };

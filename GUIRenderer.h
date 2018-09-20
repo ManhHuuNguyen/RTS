@@ -8,7 +8,7 @@
 #include "glm\gtc\type_ptr.hpp"
 #include "CallbackInterface.h"
 
-class GUI:public CallbackInterface {
+class GUI {
 	
 	public:
 		Texture * texture;
@@ -18,9 +18,14 @@ class GUI:public CallbackInterface {
 		GUI(Texture * texture, int startX, int startY, int endX, int endY); // pixel on screen
 		glm::mat4 getModelMat();
 		void updateModelMat(int startX, int startY, int endX, int endY); // pixel on screen
-		virtual void handleEvents(InputWrapper & inputWrapper);
+		
 };
 
+class ActiveGUI:public GUI, public CallbackInterface { // this will be buttons and such
+	public:
+		ActiveGUI(Texture * texture, int startX, int startY, int endX, int endY, int id);
+		virtual void handleEvents(std::vector<Action> & actions) = 0;
+};
 
 
 class GUIRenderer {

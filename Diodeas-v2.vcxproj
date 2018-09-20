@@ -177,6 +177,7 @@
     <ClCompile Include="BoundingBox.cpp" />
     <ClCompile Include="BoundingBoxRenderer.cpp" />
     <ClCompile Include="BoundingSphere.cpp" />
+    <ClCompile Include="CallbackInterface.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CONSTANTS.cpp" />
     <ClCompile Include="Context.cpp" />
@@ -277,7 +278,7 @@
     <ClInclude Include="Vertex.h" />
   </ItemGroup>
   <ItemGroup>
-    <Xml Include="MainContext.xml" />
+    <Xml Include="contexts\MainContext.xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

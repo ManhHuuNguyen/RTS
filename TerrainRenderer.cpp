@@ -1,6 +1,6 @@
 #include "TerrainRenderer.h"
 
-TerrainRenderer::TerrainRenderer():terrainShader("TerrainVertexShader2.vert", "TerrainFragmentShader2.frag") {
+TerrainRenderer::TerrainRenderer():terrainShader("shaders/TerrainVertexShader2.vert", "shaders/TerrainFragmentShader2.frag") {
 }
 
 void TerrainRenderer::addTerrainTile(TerrainTile & t) {

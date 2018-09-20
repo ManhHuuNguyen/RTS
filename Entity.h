@@ -24,7 +24,7 @@ class Entity:public CallbackInterface {
 		glm::vec3 scale;
 		BoundingBox boundingBox;
 
-		Entity(Model * model, glm::vec3 orientation, glm::vec3 position, glm::vec3 scale);
+		Entity(Model * model, glm::vec3 orientation, glm::vec3 position, glm::vec3 scale, int id);
 		
 		
 		void draw(unsigned int PROGRAM_HANDLER, float elapsedSeconds);
@@ -35,5 +35,5 @@ class Entity:public CallbackInterface {
 		// return true if object has moved, false otherwise
 		virtual bool update(float elapsedSeconds) = 0;
 		virtual void moveToward(float x, float z) = 0;
-		virtual void handleEvents(InputWrapper & inputWrapper) = 0;
+		virtual void handleEvents(std::vector<Action> & actions) = 0;
 };

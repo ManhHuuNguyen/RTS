@@ -31,13 +31,12 @@ class MouseInput {
 
 class Input {
 	public:
-		int inputID;
+		std::string inputID;
 		std::vector<int> ranges;
-		std::vector<float> floatRanges;
-		int numFollow;
 		bool fromMouse;
 
-		Input(int inputID, int numFollow, bool fromMouse);
+		Input(const char * inputID, bool fromMouse);
+		Input(std::string & inputID, bool fromMouse);
 };
 
 class InputWrapper {
@@ -48,12 +47,12 @@ class InputWrapper {
 class InputManager {
 
 	public:		
-		static int DRAG;
-		static int LEFT_PRESS;
-		static int RIGHT_PRESS;
-		static int CURRENT_POS;
-		static int LEFT_UP;
-		static int RIGHT_UP;
+		static std::string DRAG;
+		static std::string LEFT_PRESS;
+		static std::string RIGHT_PRESS;
+		static std::string CURRENT_POS;
+		static std::string LEFT_UP;
+		static std::string RIGHT_UP;
 		MouseInput mouseInput;
 
 		InputWrapper convertToActions(std::vector<SDL_Event> & events);

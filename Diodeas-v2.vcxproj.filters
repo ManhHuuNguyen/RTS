@@ -234,6 +234,9 @@
     <ClCompile Include="pugixml.cpp">
       <Filter>Source Files\util\lib</Filter>
     </ClCompile>
+    <ClCompile Include="CallbackInterface.cpp">
+      <Filter>Source Files\util</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="EntityFragmentShader2.frag">
@@ -411,7 +414,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Xml Include="MainContext.xml">
+    <Xml Include="contexts\MainContext.xml">
       <Filter>Resource Files</Filter>
     </Xml>
   </ItemGroup>

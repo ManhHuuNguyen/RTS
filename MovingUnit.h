@@ -17,14 +17,14 @@ class MovingUnit:public Entity{
 		float angularV = 0.0f;
 		int currentHealth = maxHealth;
 
-		MovingUnit(Model * model, glm::vec3 orientation, glm::vec3 position, glm::vec3 scale);
+		MovingUnit(Model * model, glm::vec3 orientation, glm::vec3 position, glm::vec3 scale, int id);
 		
 		void updatePosition(float linearV, float angularV, float elapsedSeconds);
 		bool updateVelocity(float * linearV, float * angularV, float linearSpeed, float angularSpeed, float elapsedSeconds);
 		void moveToward(float x, float z) override; // objects cannot fly 
 		
 		virtual bool update(float elapsedSeconds) = 0;
-		virtual void handleEvents(InputWrapper & inputWrapper) = 0;
+		virtual void handleEvents(std::vector<Action> & actions) = 0;
 	
 		
 

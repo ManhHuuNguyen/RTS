@@ -1,11 +1,11 @@
 #include "InputManager.h"
 
-int InputManager::DRAG = 3;
-int InputManager::LEFT_PRESS = 1;
-int InputManager::RIGHT_PRESS = 2;
-int InputManager::CURRENT_POS = 0;
-int InputManager::LEFT_UP = -1;
-int InputManager::RIGHT_UP = -2;
+std::string InputManager::DRAG = "3";
+std::string InputManager::LEFT_PRESS = "1";
+std::string InputManager::RIGHT_PRESS = "2";
+std::string InputManager::CURRENT_POS = "0";
+std::string InputManager::LEFT_UP = "4";
+std::string InputManager::RIGHT_UP = "5";
 
 
 void MouseInput::pressLeft(int x, int y) {
@@ -59,9 +59,13 @@ void MouseInput::update(int relX, int relY) {
 	}
 }
 
-Input::Input(int inputID, int numFollow, bool fromMouse) {
+Input::Input(const char * inputID, bool fromMouse) {
 	this->inputID = inputID;
-	this->numFollow = numFollow;
+	this->fromMouse = fromMouse;
+}
+
+Input::Input(std::string & inputID, bool fromMouse) {
+	this->inputID = inputID;
 	this->fromMouse = fromMouse;
 }
 
@@ -71,7 +75,7 @@ InputWrapper InputManager::convertToActions(std::vector<SDL_Event> & events) {
 	for (SDL_Event & sdlEvent : events) {
 		switch (sdlEvent.type){
 			case SDL_KEYDOWN:
-				wrapper.inputs.push_back(Input{sdlEvent.key.keysym.sym, 0, false});
+				wrapper.inputs.push_back(Input{ SDL_GetKeyName(sdlEvent.key.keysym.sym), false});
 				break;
 			case SDL_MOUSEBUTTONDOWN:
 				if (sdlEvent.button.button == SDL_BUTTON_LEFT) {
@@ -91,7 +95,7 @@ InputWrapper InputManager::convertToActions(std::vector<SDL_Event> & events) {
 			case SDL_MOUSEBUTTONUP:
 				if (sdlEvent.button.button = SDL_BUTTON_LEFT) {
 					if (mouseInput.started) { // pushing it one last time before reset
-						Input a{DRAG, 5, true};
+						Input a{DRAG, true};
 						a.ranges.push_back(mouseInput.startX);
 						a.ranges.push_back(mouseInput.startY);
 						a.ranges.push_back(mouseInput.endX);
@@ -110,7 +114,7 @@ InputWrapper InputManager::convertToActions(std::vector<SDL_Event> & events) {
 		}
 	}
 	if (mouseInput.isDrag()) { // DRAG, startX, startY, endX, endY, finished (0 or 1)
-		Input a{ DRAG, 5, true };
+		Input a{ DRAG, true };
 		a.ranges.push_back(mouseInput.startX);
 		a.ranges.push_back(mouseInput.startY);
 		a.ranges.push_back(mouseInput.endX);
@@ -120,13 +124,13 @@ InputWrapper InputManager::convertToActions(std::vector<SDL_Event> & events) {
 	}
 	else if (mouseInput.pressed) { // LEFT or RIGHT, x, y
 		if (mouseInput.left) {
-			Input a{ LEFT_PRESS, 2, true };
+			Input a{ LEFT_PRESS, true };
 			a.ranges.push_back(mouseInput.clickCoordX);
 			a.ranges.push_back(mouseInput.clickCoordY);
 			wrapper.inputs.push_back(a);
 		}
 		else if (mouseInput.right) {
-			Input a{ RIGHT_PRESS, 2, true };
+			Input a{ RIGHT_PRESS, true };
 			a.ranges.push_back(mouseInput.clickCoordX);
 			a.ranges.push_back(mouseInput.clickCoordY);
 			wrapper.inputs.push_back(a);
@@ -134,7 +138,7 @@ InputWrapper InputManager::convertToActions(std::vector<SDL_Event> & events) {
 	}
 	int posX, posY;
 	SDL_GetMouseState(&posX, &posY);
-	Input a{ CURRENT_POS, 2, true };
+	Input a{ CURRENT_POS, true };
 	a.ranges.push_back(posX);
 	a.ranges.push_back(posY);
 	wrapper.inputs.push_back(a);

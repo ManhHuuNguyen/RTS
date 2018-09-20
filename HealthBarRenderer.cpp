@@ -1,7 +1,7 @@
 #include "HealthBarRenderer.h"
 
 
-HealthBarRenderer::HealthBarRenderer() :healthbarShader("HealthBarVertexShader.vert", "HealthBarFragmentShader.frag") {
+HealthBarRenderer::HealthBarRenderer() :healthbarShader("shaders/HealthBarVertexShader.vert", "shaders/HealthBarFragmentShader.frag") {
 	float vertices[8] = { -1.0f, 1.0f, -1.0f, -1.0f, 1.0f, 1.0f, 1.0f, -1.0f };
 	glGenVertexArrays(1, &vao);
 	glGenBuffers(1, &vbo);

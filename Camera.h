@@ -21,7 +21,6 @@ public:
 	glm::vec3 right;
 	glm::vec3 up;
 	static float cameraSpeed;
-	static int ID;
 
 	Camera(); // needed for classes that inherit this class
 
@@ -37,5 +36,5 @@ public:
 
 	glm::mat4 getViewMatrix();
 
-	void handleEvents(InputWrapper & inputWrapper) override;
+	void handleEvents(std::vector<Action> & actions) override;
 };
