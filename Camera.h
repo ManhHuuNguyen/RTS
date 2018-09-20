@@ -9,32 +9,35 @@
 #include "glm\gtx\transform.hpp"
 #include "CallbackInterface.h"
 #include "ID.h"
+#include "Plane.h"
 
 
-class Camera :public CallbackInterface {
+class Camera {
 
 
-public:
+	public:
 
-	glm::vec4 eyePosition;
-	glm::vec3 look;
-	glm::vec3 right;
-	glm::vec3 up;
-	static float cameraSpeed;
+		glm::vec4 eyePosition;
+		glm::vec3 look;
+		glm::vec3 right;
+		glm::vec3 up;
+		static float cameraSpeed;
 
-	Camera(); // needed for classes that inherit this class
+		Camera(); // needed for classes that inherit this class
 
-	Camera(float eyeX, float eyeY, float eyeZ, float spotX, float spotY, float spotZ, float upX, float upV, float upZ);
+		Camera(float eyeX, float eyeY, float eyeZ, float spotX, float spotY, float spotZ, float upX, float upV, float upZ);
 
-	Camera(float radianAngle, float height);
+		Camera(float radianAngle, float height);
 
-	void rotate(glm::vec3 axis, float theta);
+		void rotate(glm::vec3 axis, float theta);
 
-	void normalizeLRU();
+		void normalizeLRU();
 
-	void moveByMouse(int mouseX, int mouseY);
+		void moveByMouse(int mouseX, int mouseY);
 
-	glm::mat4 getViewMatrix();
+		glm::mat4 getViewMatrix();
 
-	void handleEvents(std::vector<Action> & actions) override;
+		void update(InputWrapper & inputWrapper);
+
+		Plane getNearPlane();
 };

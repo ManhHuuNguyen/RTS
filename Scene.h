@@ -42,10 +42,9 @@ class Scene: public CallbackInterface {
 		void render(long long elapsedMilliseconds);
 		IntersectionRecord mousePick(Ray & ray); // this will have to be rewritten completely when I add terrain 
 		IntersectionRecord mouseIntersectTerrain(Ray & r); // this will have to be rewritten completely when I add terrain
-		std::vector<Entity *> dragSelect(int startX, int startY, int endX, int endY);
+		std::vector<Entity *> dragSelect(float startX, float startY, int endX, int endY);
 		void loadFogToShader(unsigned int PROGRAM, glm::vec4 fogColor = glm::vec4(1.0), float gradient = 0.0f, float density = 0.0f);
 		void handleEvents(std::vector<Action> & actions) override;
 		~Scene();
 };
 
-Ray getMouseRay(int x, int y, Camera * camera);

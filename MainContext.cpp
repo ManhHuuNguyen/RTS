@@ -26,23 +26,6 @@ void MainContext::readContextFile(const char * filename) {
 			
 		}
 	}
-	/*for (auto action : kbInputMapper) {
-		std::vector<int> & objects = action.second;
-		std::cout << action.first << std::endl;
-		for (int i = 0; i < objects.size(); i++) {
-			std::cout << objects[i] << " ";
-		}
-		std::cout << std::endl;
-	}
-
-	for (auto action : mouseInputMapper) {
-		std::vector<int> & objects = action.second;
-		std::cout << action.first << std::endl;
-		for (int i = 0; i < objects.size(); i++) {
-			std::cout << objects[i] << " ";
-		}
-		std::cout << std::endl;
-	}*/
 }
 
 MainContext::MainContext(Camera * camera, DragSquare * dragSquare, Scene * scene) :Context(true) {
@@ -53,13 +36,10 @@ MainContext::MainContext(Camera * camera, DragSquare * dragSquare, Scene * scene
 }
 
 void MainContext::callBack(InputWrapper & inputWrapper) {
+	camera->update(inputWrapper); 
+	dragSquare->update(inputWrapper, camera);
+
 	std::map<int, std::vector<Action>> map = mapAction(inputWrapper);
-	if (map.count(camera->id) != 0) {
-		camera->handleEvents(map[camera->id]);
-	}
-	if (map.count(dragSquare->id) != 0) {
-		dragSquare->handleEvents(map[dragSquare->id]);
-	}
 	if (map.count(scene->id) != 0) {
 		scene->handleEvents(map[scene->id]);
 	}
@@ -80,11 +60,15 @@ std::map<int, std::vector<Action>> MainContext::mapAction(InputWrapper & inputWr
 				Action action{input.inputID, input.fromMouse};
 				if (input.inputID == InputManager::DRAG) {
 					action.intRanges = input.ranges;
+					if (input.ranges[4]) { // if drag is finished
+						action.floatRanges.push_back(dragSquare->startPoint.x);
+						action.floatRanges.push_back(dragSquare->startPoint.y);
+					}
 				}
 				else if (input.inputID == InputManager::LEFT_PRESS) {
 					action.intRanges = input.ranges;
 
-					Ray r = getMouseRay(input.ranges[0], input.ranges[1], camera);
+					Ray r = Ray::getMouseRay(input.ranges[0], input.ranges[1], camera);
 					IntersectionRecord record = scene->mouseIntersectTerrain(r);
 					action.floatRanges.push_back(record.groundHitPoint.x);
 					action.floatRanges.push_back(record.groundHitPoint.y);
@@ -92,7 +76,7 @@ std::map<int, std::vector<Action>> MainContext::mapAction(InputWrapper & inputWr
 				else if (input.inputID == InputManager::RIGHT_PRESS) {
 					action.intRanges = input.ranges;
 
-					Ray r = getMouseRay(input.ranges[0], input.ranges[1], camera);
+					Ray r = Ray::getMouseRay(input.ranges[0], input.ranges[1], camera);
 					IntersectionRecord record = scene->mouseIntersectTerrain(r);
 					action.floatRanges.push_back(record.groundHitPoint.x);
 					action.floatRanges.push_back(record.groundHitPoint.y);

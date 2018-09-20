@@ -25,7 +25,6 @@ void Worker::handleEvents(std::vector<Action> & actions) {
 	for (int i = 0; i < actions.size(); i++) {
 		if (actions[i].fromMouse) {
 			if (actions[i].key == InputManager::RIGHT_PRESS) {
-				//assert((inputWrapper.inputs[i].floatRanges.size() == 2)); // this is where all goes wrong
 				moveToward(actions[i].floatRanges[0], actions[i].floatRanges[1]);
 			}
 		}

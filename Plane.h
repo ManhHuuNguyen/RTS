@@ -2,7 +2,6 @@
 
 #include "glm\glm.hpp"
 #include <vector>
-#include "Camera.h"
 #include "CONSTANTS.h"
 
 class Plane {

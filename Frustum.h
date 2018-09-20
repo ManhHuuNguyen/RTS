@@ -1,5 +1,6 @@
 #pragma once
 #include "Plane.h"
+#include "Camera.h"
 #include "BoundingBox.h"
 #include "BoundingSphere.h"
 

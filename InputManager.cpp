@@ -72,6 +72,8 @@ Input::Input(std::string & inputID, bool fromMouse) {
 InputWrapper InputManager::convertToActions(std::vector<SDL_Event> & events) {
 	InputWrapper wrapper;
 	mouseInput.pressed = false;
+	bool endDrag = false;
+	bool drag = false;
 	for (SDL_Event & sdlEvent : events) {
 		switch (sdlEvent.type){
 			case SDL_KEYDOWN:
@@ -85,7 +87,7 @@ InputWrapper InputManager::convertToActions(std::vector<SDL_Event> & events) {
 						mouseInput.pressed = true;
 					}
 				}
-				else if (sdlEvent.button.button == SDL_BUTTON_RIGHT){
+				else if (sdlEvent.button.button == SDL_BUTTON_RIGHT) {
 					if (!mouseInput.right) {
 						mouseInput.pressRight(sdlEvent.motion.x, sdlEvent.motion.y);
 						mouseInput.pressed = true;
@@ -95,15 +97,17 @@ InputWrapper InputManager::convertToActions(std::vector<SDL_Event> & events) {
 			case SDL_MOUSEBUTTONUP:
 				if (sdlEvent.button.button = SDL_BUTTON_LEFT) {
 					if (mouseInput.started) { // pushing it one last time before reset
+						endDrag = true;
+						/*std::cout << "Finishing drag" << std::endl;
 						Input a{DRAG, true};
 						a.ranges.push_back(mouseInput.startX);
 						a.ranges.push_back(mouseInput.startY);
 						a.ranges.push_back(mouseInput.endX);
 						a.ranges.push_back(mouseInput.endY);
 						a.ranges.push_back(true);
-						wrapper.inputs.push_back(a);
+						wrapper.inputs.push_back(a);*/
 					}
-					mouseInput.reset();
+					/*mouseInput.reset();*/
 				}
 				break;
 			case SDL_MOUSEMOTION:
@@ -121,6 +125,7 @@ InputWrapper InputManager::convertToActions(std::vector<SDL_Event> & events) {
 		a.ranges.push_back(mouseInput.endY);
 		a.ranges.push_back(mouseInput.finished);
 		wrapper.inputs.push_back(a);
+		drag = true;
 	}
 	else if (mouseInput.pressed) { // LEFT or RIGHT, x, y
 		if (mouseInput.left) {
@@ -135,6 +140,17 @@ InputWrapper InputManager::convertToActions(std::vector<SDL_Event> & events) {
 			a.ranges.push_back(mouseInput.clickCoordY);
 			wrapper.inputs.push_back(a);
 		}
+	}
+	if (drag && endDrag) {
+		std::cout << "Finishing drag" << std::endl;
+		Input a{DRAG, true};
+		a.ranges.push_back(mouseInput.startX);
+		a.ranges.push_back(mouseInput.startY);
+		a.ranges.push_back(mouseInput.endX);
+		a.ranges.push_back(mouseInput.endY);
+		a.ranges.push_back(true);
+		wrapper.inputs.push_back(a);
+		mouseInput.reset();
 	}
 	int posX, posY;
 	SDL_GetMouseState(&posX, &posY);

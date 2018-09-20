@@ -131,47 +131,20 @@ IntersectionRecord Scene::mouseIntersectTerrain(Ray & r) {
 	return intersectionRecord;
 }
 
-Ray getMouseRay(int x, int y, Camera * camera) { // just multiplying the ray with the inverse of matrices to get back to world coord
-	float normalizedDeviceX = 2.0f * x / CONSTANT::WIDTH_DISPLAY - 1.0f;
-	float normalizedDeviceY = 1.0f - 2.0f * y / CONSTANT::HEIGHT_DISPLAY;
-	glm::vec4 rayClip = glm::vec4(normalizedDeviceX, normalizedDeviceY, -1.0f, 1.0f);
-	glm::vec4 rayEye = CONSTANT::INV_PROJECTION_MATRIX * rayClip;
-	rayEye = glm::vec4(rayEye.x, rayEye.y, -1.0f, 0.0f);
-	glm::vec3 rayWorld = glm::normalize(glm::vec3(glm::inverse(camera->getViewMatrix()) * rayEye));
-	return Ray{ glm::vec3(camera->eyePosition), rayWorld };
-}
-
-std::vector<Entity *> Scene::dragSelect(int startX, int startY, int endX, int endY) {
-	Ray r1 = getMouseRay(startX, startY, camera);
-	Ray r2 = getMouseRay(startX, endY, camera);
-	Ray r3 = getMouseRay(endX, startY, camera);
-	Ray r4 = getMouseRay(endX, endY, camera);
-	std::vector<Entity *> chosens;
-	IntersectionRecord record1 = mouseIntersectTerrain(r1);
-	IntersectionRecord record2 = mouseIntersectTerrain(r2);
-	IntersectionRecord record3 = mouseIntersectTerrain(r3);
-	IntersectionRecord record4 = mouseIntersectTerrain(r4);
-	float minX = std::min(std::min(std::min(record1.groundHitPoint.x, record2.groundHitPoint.x), record3.groundHitPoint.x), record4.groundHitPoint.x);
-	float maxX = std::max(std::max(std::max(record1.groundHitPoint.x, record2.groundHitPoint.x), record3.groundHitPoint.x), record4.groundHitPoint.x);
-	float minZ = std::min(std::min(std::min(record1.groundHitPoint.y, record2.groundHitPoint.y), record3.groundHitPoint.y), record4.groundHitPoint.y);
-	float maxZ = std::max(std::max(std::max(record1.groundHitPoint.y, record2.groundHitPoint.y), record3.groundHitPoint.y), record4.groundHitPoint.y);
-	octree->dragSelectRecursive(chosens, minX, minZ, maxX, maxZ);
-	return chosens;
-}
-
 void Scene::handleEvents(std::vector<Action> & actions) {
 
 	for (int i = 0; i < actions.size(); i++) {
 		if (actions[i].fromMouse) {
 			if (actions[i].key == InputManager::DRAG) {
-				if (actions[i].intRanges[4]) {
-					int startX = actions[i].intRanges[0];
-					int startY = actions[i].intRanges[1];
+				if (actions[i].intRanges[4]) { // if finished
+					float startX = actions[i].floatRanges[0];
+					float startY = actions[i].floatRanges[1];
 					int endX = actions[i].intRanges[2];
 					int endY = actions[i].intRanges[3];
 					std::vector<Entity *> chosens = dragSelect(startX, startY, endX, endY);
 					if (chosens.size() > 0) {
 						chosenOnes.clear();
+						std::cout << "Scene: Drag and clear" << std::endl;
 						for (int i = 0; i < chosens.size(); i++) {
 							chosenOnes.insert(chosens[i]);
 						}
@@ -180,7 +153,7 @@ void Scene::handleEvents(std::vector<Action> & actions) {
 				
 			}
 			else if (actions[i].key == InputManager::LEFT_PRESS) {
-				Ray r = getMouseRay(actions[i].intRanges[0], actions[i].intRanges[1], camera);
+				Ray r = Ray::getMouseRay(actions[i].intRanges[0], actions[i].intRanges[1], camera);
 				IntersectionRecord hitRecord = mousePick(r);
 				if (hitRecord.e_ptr != nullptr) {
 					chosenOnes.clear();
@@ -191,4 +164,32 @@ void Scene::handleEvents(std::vector<Action> & actions) {
 		}
 	}
 
+}
+
+
+std::vector<Entity *> Scene::dragSelect(float startX, float startY, int endX, int endY) {
+	std::vector<Entity *> chosens;
+	Ray r4 = Ray::getMouseRay(endX, endY, camera);
+	IntersectionRecord record4 = mouseIntersectTerrain(r4);
+	float ghpX = record4.groundHitPoint.x;
+	float ghpY = record4.groundHitPoint.y;
+	float minX, maxX, minZ, maxZ;
+	if (startX < ghpX) {
+		minX = startX;
+		maxX = ghpX;
+	}
+	else {
+		minX = ghpX;
+		maxX = startX;
+	}
+	if (startY < ghpY) {
+		minZ = startY;
+		maxZ = ghpY;
+	}
+	else {
+		minZ = ghpY;
+		maxZ = startY;
+	}
+	octree->dragSelectRecursive(chosens, minX, minZ, maxX, maxZ);
+	return chosens;
 }
