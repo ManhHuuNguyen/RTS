@@ -237,6 +237,15 @@
     <ClCompile Include="CallbackInterface.cpp">
       <Filter>Source Files\util</Filter>
     </ClCompile>
+    <ClCompile Include="UnitCard.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="ActiveGUI.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="EntityFragmentShader2.frag">
@@ -414,6 +423,15 @@
     </ClInclude>
     <ClInclude Include="TownCenter..h">
       <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="UnitCard.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="ActiveGUI.h">
+      <Filter>Header Files\GUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

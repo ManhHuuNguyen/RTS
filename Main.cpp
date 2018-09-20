@@ -51,13 +51,14 @@ int main(int argc, char *argv[]) {
 	
 	// load entities
 
+	// load guis
 	DragSquare dragSquare{guis["DRAG_SQUARE"]};
 	scene.guiRenderer.addGUI(&dragSquare);
 	
 	Worker steve1{ models["RUNNING_MODEL"], glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f) };
 	scene.addEntity(&steve1);
 
-	Worker steve4{ models["TOWNCENTER_MODEL"], glm::vec3(0.0f, 1.57f, 0.0f), glm::vec3(10.0f, 0.0f, 20.0f), glm::vec3(0.1f, 0.1f, 0.1f) };
+	Worker steve4{ models["TOWNCENTER_MODEL"], glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(10.0f, 0.0f, 20.0f), glm::vec3(1.0f, 1.0f, 1.0f) };
 	scene.addEntity(&steve4);
 
 	Worker steve5{ models["RUNNING_MODEL"], glm::vec3(0.0f, 1.57f, 0.0f), glm::vec3(50.0f, 0.0f, 20.0f), glm::vec3(1.0f, 1.0f, 1.0f) };
@@ -145,9 +146,9 @@ void setUpGLMain() {
 void loadModels(std::map<std::string, Model *> & models, Assimp::Importer & importer) {
 	/*Model * CHICKEN_MODEL = new Model{ "resources/eagle/eagle.fbx", importer, true };
 	models.insert(std::pair<std::string, Model *>("CHICKEN_MODEL", CHICKEN_MODEL));*/
-	Model * RUNNING_MODEL = new Model{ "resources/running-model/running_model.dae", importer, true };
+	Model * RUNNING_MODEL = new Model{ "resources/running-model/running_model.dae", importer, true, glm::vec3(1.0f, 1.0f, 1.0f)};
 	models.insert(std::pair<std::string, Model *>("RUNNING_MODEL", RUNNING_MODEL));
-	Model * TOWNCENTER_MODEL = new Model{"resources/town_center/WoodenCabinObj.obj", importer, true};
+	Model * TOWNCENTER_MODEL = new Model{"resources/town_center/WoodenCabinObj.obj", importer, true, glm::vec3(0.2f, 0.2f, 0.2f)};
 	models.insert(std::pair<std::string, Model *>("TOWNCENTER_MODEL", TOWNCENTER_MODEL));
 	/*Model * TREE_MODEL = new Model{"resources/tree/Tree.fbx", importer, true};
 	models.insert(std::pair<std::string, Model *>("TREE_MODEL", TREE_MODEL));*/
@@ -156,6 +157,8 @@ void loadModels(std::map<std::string, Model *> & models, Assimp::Importer & impo
 void loadGUITexture(std::map<std::string, Texture *> & guis) {
 	Texture * dragSquareTex = new Texture("resources/guis/mouse_square.png", 0, GL_CLAMP_TO_EDGE);
 	guis.insert(std::pair<std::string, Texture *>("DRAG_SQUARE", dragSquareTex));
+	Texture * workerCardTex = new Texture("resources/guis/worker.png", 0, GL_CLAMP_TO_EDGE);
+	guis.insert(std::pair<std::string, Texture *>("WORKER_CARD", workerCardTex));
 }
 
 void loadTerrains(std::map<std::string, Terrain *> & terrains) {

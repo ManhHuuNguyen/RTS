@@ -2,30 +2,15 @@
 #include "GL\glew.h"
 #include "glm\glm.hpp"
 #include <map>
-#include "Texture.h"
 #include "Shader.h"
 #include "glm\gtx\transform.hpp"
 #include "glm\gtc\type_ptr.hpp"
-#include "CallbackInterface.h"
+#include "ActiveGUI.h"
+#include "UnitCard.h"
+#include <set>
+#include "Entity.h"
 
-class GUI {
-	
-	public:
-		Texture * texture;
-		glm::vec2 position; // considered as center of rectangle
-		glm::vec2 scale;
 
-		GUI(Texture * texture, int startX, int startY, int endX, int endY); // pixel on screen
-		glm::mat4 getModelMat();
-		void updateModelMat(int startX, int startY, int endX, int endY); // pixel on screen
-		
-};
-
-class ActiveGUI:public GUI, public CallbackInterface { // this will be buttons and such
-	public:
-		ActiveGUI(Texture * texture, int startX, int startY, int endX, int endY, int id);
-		virtual void handleEvents(std::vector<Action> & actions) = 0;
-};
 
 
 class GUIRenderer {
@@ -41,6 +26,6 @@ class GUIRenderer {
 		GUIRenderer();
 		void useGUIShader();
 		void addGUI(GUI * gui);
-		void render(long long elapsedMilliSeconds);
+		void render(long long elapsedMilliSeconds, std::set<Entity *> & chosenOnes);
 
 };

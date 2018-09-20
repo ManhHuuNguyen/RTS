@@ -18,7 +18,7 @@ glm::vec3 ModelData::calculateModelCenter() {
 }
 
 
-Model::Model(const char * file, Assimp::Importer & importer, bool leftHanded) {
+Model::Model(const char * file, Assimp::Importer & importer, bool leftHanded, glm::vec3 scale) {
 	this->leftHanded = leftHanded;
 	const aiScene * scene = importer.ReadFile(file,
 		aiProcess_CalcTangentSpace |
@@ -83,12 +83,16 @@ Model::Model(const char * file, Assimp::Importer & importer, bool leftHanded) {
 	aiNode * rootNode = scene->mRootNode;
 
 	fillJointHierarchy(rootNode, CONSTANT::IDENTITY_MATRIX, jointIndexMap);
-	createMesh(scene, rootNode, materialMap, loadedTextures, CONSTANT::IDENTITY_MATRIX, jointIndexMap);	
+	glm::vec4 scaleVec4 = glm::vec4(scale, 1.0f);
+	createMesh(scene, rootNode, materialMap, loadedTextures, CONSTANT::IDENTITY_MATRIX, jointIndexMap, scaleVec4);	
 	calculateAnimation(scene);
 	for (int i = 0; i < materials.size(); i++) {
 		normalizeVertexWeight(materials[i]->mesh);
 	}
 	loadModelToVAO();
+	std::cout << "Printing in Model.cpp: " << std::endl;
+	Util::printGLM(modelData.calculateModelCenter());
+	std::cout <<(modelData.minY) << std::endl;
 }
 
 void Model::loadModelToVAO() {
@@ -238,7 +242,8 @@ void Model::createMesh(const aiScene * scene,
 		std::map<unsigned int, Material *> & materialMap,
 		std::map<std::string, Texture *> & loadedTextures,
 		glm::mat4 & parentMatrix,
-		std::map<std::string, int> & jointIndexMap
+		std::map<std::string, int> & jointIndexMap,
+		glm::vec4 & scale
 ) {
 	int numMesh = rootNode->mNumMeshes;
 	glm::mat4 localMatrix = parentMatrix * Util::aiToGLM(rootNode->mTransformation);
@@ -274,7 +279,7 @@ void Model::createMesh(const aiScene * scene,
 
 			unsigned int indice1 = indices[0];
 			Vertex v1;
-			v1.position = localMatrix * glm::vec4(assimpVertexArray[indice1].x, assimpVertexArray[indice1].y, assimpVertexArray[indice1].z, 1.0f);
+			v1.position = scale * (localMatrix * glm::vec4(assimpVertexArray[indice1].x, assimpVertexArray[indice1].y, assimpVertexArray[indice1].z, 1.0f));
 			v1.normal = localMatrix * glm::vec4(assimpNormalArray[indice1].x, assimpNormalArray[indice1].y, assimpNormalArray[indice1].z, 0.0f);
 			if (hasTexture) {
 				if (leftHanded) {
@@ -299,7 +304,7 @@ void Model::createMesh(const aiScene * scene,
 
 			unsigned int indice2 = indices[1];
 			Vertex v2;
-			v2.position = localMatrix * glm::vec4(assimpVertexArray[indice2].x, assimpVertexArray[indice2].y, assimpVertexArray[indice2].z, 1.0f);
+			v2.position = scale * (localMatrix * glm::vec4(assimpVertexArray[indice2].x, assimpVertexArray[indice2].y, assimpVertexArray[indice2].z, 1.0f));
 			v2.normal = localMatrix * glm::vec4(glm::vec4(assimpNormalArray[indice2].x, assimpNormalArray[indice2].y, assimpNormalArray[indice2].z, 0.0f));
 			if (hasTexture) {
 				if (leftHanded) {
@@ -325,7 +330,7 @@ void Model::createMesh(const aiScene * scene,
 
 			unsigned int indice3 = indices[2];
 			Vertex v3;
-			v3.position = localMatrix * glm::vec4(assimpVertexArray[indice3].x, assimpVertexArray[indice3].y, assimpVertexArray[indice3].z, 1.0f);
+			v3.position = scale * (localMatrix * glm::vec4(assimpVertexArray[indice3].x, assimpVertexArray[indice3].y, assimpVertexArray[indice3].z, 1.0f));
 			v3.normal = localMatrix * glm::vec4(assimpNormalArray[indice3].x, assimpNormalArray[indice3].y, assimpNormalArray[indice3].z, 0.0f);
 			if (hasTexture) {
 				if (leftHanded) {
@@ -352,7 +357,7 @@ void Model::createMesh(const aiScene * scene,
 	}
 	for (int s = 0; s < rootNode->mNumChildren; s++) {
 		aiNode * childNode = rootNode->mChildren[s];
-		createMesh(scene, childNode, materialMap, loadedTextures, localMatrix, jointIndexMap);
+		createMesh(scene, childNode, materialMap, loadedTextures, localMatrix, jointIndexMap, scale);
 	}
 }
 

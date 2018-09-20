@@ -52,7 +52,7 @@ class Model {
 		GLuint vao;
 		GLuint vbo[5];
 		
-		Model(const char * file, Assimp::Importer & importer, bool leftHanded);
+		Model(const char * file, Assimp::Importer & importer, bool leftHanded, glm::vec3 scale);
 		void loadModelToVAO();
 		bool isTextureLoaded(std::string path, std::map<std::string, Texture *> & loadedTextures);
 		std::vector<glm::vec4> getMeshesPositions();
@@ -70,7 +70,8 @@ class Model {
 			std::map<unsigned int, Material *> & materialMap,
 			std::map<std::string, Texture *> & loadedTextures,
 			glm::mat4 & parentMatrix,
-			std::map<std::string, int> & jointIndexMap
+			std::map<std::string, int> & jointIndexMap, 
+			glm::vec4 & scale
 	);
 		void fillJointHierarchy(aiNode * rootNode, glm::mat4 & parentMatrix, std::map<std::string, int> & jointIndexMap);
 		void fillJointHierarchyRecursive(aiNode * currentNode, Joint & parentJoint, std::map<std::string, int> & jointIndexMap);

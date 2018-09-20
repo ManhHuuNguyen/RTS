@@ -107,7 +107,7 @@ void Scene::render(long long elapsedMilliseconds) {
 	boundingboxRenderer.render();
 
 	guiRenderer.useGUIShader();
-	guiRenderer.render(elapsedMilliseconds);
+	guiRenderer.render(elapsedMilliseconds, chosenOnes);
 }
 
 void Scene::loadFogToShader(unsigned int PROGRAM, glm::vec4 fogColor, float gradient, float density) {

@@ -44,8 +44,8 @@ void Entity::draw(unsigned int PROGRAM_HANDLER, float elapsedSeconds) {
 
 glm::mat4 Entity::getModelMat() {
 	glm::vec3 centerOfModel = model->modelData.calculateModelCenter();
-	glm::vec3 modelFeetTranslate = glm::vec3(0.0f, model->modelData.minY, 0.0f);
-	glm::mat4 modelMat = glm::translate(position + centerOfModel - modelFeetTranslate); // translate back to original pos, then translate to position in world, then subtract the height of feet so that model touches the ground
+	glm::vec3 modelFeetTranslate = glm::vec3(0.0f, model->modelData.calculateHeight()/2.0f, 0.0f);
+	glm::mat4 modelMat = glm::translate(position + modelFeetTranslate); // translate so that model touches the ground
 	glm::mat4 rotateX = glm::rotate(orientation.x, glm::vec3(1.0f, 0.0f, 0.0f));
 	glm::mat4 rotateY = glm::rotate(orientation.y, glm::vec3(0.0f, 1.0f, 0.0f));
 	glm::mat4 rotateZ = glm::rotate(orientation.z, glm::vec3(0.0f, 0.0f, 1.0f));
