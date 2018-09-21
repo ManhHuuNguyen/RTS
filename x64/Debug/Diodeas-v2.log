@@ -1,6 +1,4 @@
 ﻿C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets(391,5): warning MSB8028: The intermediate directory (x64\Debug\) contains files shared from another project (Diodeas-v2.vcxproj).  This can lead to incorrect clean and rebuild behavior.
-  Scene.cpp
+  Main.cpp
 d:\programming\rts\diodeas-v2\intersectionrecord.h(6): warning C4244: 'initializing': conversion from 'std::numeric_limits<double>::_Ty' to 'float', possible loss of data
-d:\programming\rts\diodeas-v2\scene.cpp(120): warning C4838: conversion from 'std::numeric_limits<double>::_Ty' to 'float' requires a narrowing conversion
-d:\programming\rts\diodeas-v2\scene.cpp(129): warning C4838: conversion from 'std::numeric_limits<double>::_Ty' to 'float' requires a narrowing conversion
   Diodeas-v2.vcxproj -> D:\Programming\RTS\x64\Debug\RTS.exe

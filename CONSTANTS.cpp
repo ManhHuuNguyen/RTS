@@ -15,6 +15,7 @@ float CONSTANT::zFar = 1000.0f;
 float CONSTANT::WORLD_SIZE = 3200.0f;
 glm::mat4 CONSTANT::PROJECTION_MATRIX = glm::perspective(CONSTANT::fov, CONSTANT::aspectRatio, CONSTANT::zNear, CONSTANT::zFar);
 glm::mat4 CONSTANT::INV_PROJECTION_MATRIX = glm::inverse(CONSTANT::PROJECTION_MATRIX);
+extern glm::mat4 CONSTANT::ORTHO_MATRIX = glm::ortho(-50.0f, 50.0f, -50.0f, 50.0f,0.1f, 100.0f);
 float CONSTANT::kEpsilon = 0.000001f;
 
 float CONSTANT::MT_PI = 3.14159265359f;	//!< pi

@@ -36,7 +36,7 @@ int main(int argc, char *argv[]) {
 	
 	
 	
-	Camera camera{ 0.785f, 90.0f };
+	Camera camera{ 0.785f, 90.0f }; // used to be 0.785, 90.0f
 	Scene scene{&camera};
 	
 	// resources loading

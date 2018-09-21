@@ -17,6 +17,7 @@ namespace CONSTANT {
 	extern float zFar;
 	extern glm::mat4 PROJECTION_MATRIX;
 	extern glm::mat4 INV_PROJECTION_MATRIX;
+	extern glm::mat4 ORTHO_MATRIX;
 	extern float WORLD_SIZE;
 	extern float kEpsilon; // small number, treat as 0
 	extern float MT_PI;	//somehow m_pi cause compile error, weird
