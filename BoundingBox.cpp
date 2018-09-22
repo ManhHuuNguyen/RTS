@@ -39,7 +39,7 @@ bool BoundingBox::contains(BoundingBox & b) {
 }
 
 bool BoundingBox::within(float xStart, float zStart, float xEnd, float zEnd) {
-	float xMax, xMin, zMax, zMin;
+	/*float xMax, xMin, zMax, zMin;
 	if (xStart < xEnd) {
 		xMax = xEnd;
 		xMin = xStart;
@@ -55,8 +55,9 @@ bool BoundingBox::within(float xStart, float zStart, float xEnd, float zEnd) {
 	else {
 		zMax = zStart;
 		zMin = zEnd;
-	}
-	if (minDimension.x >= xMin && maxDimension.x <= xMax && minDimension.z >= zMin && maxDimension.z <= zMax) {
+	}*/
+	// i do this on the assumption that xStart, zStart are smaller than xEnd, zEnd since the method that calls this method already sorts them
+	if (minDimension.x >= xStart && maxDimension.x <= xEnd && minDimension.z >= zStart && maxDimension.z <= zEnd) {
 		return true;
 	}
 	return false;

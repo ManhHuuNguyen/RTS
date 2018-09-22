@@ -14,7 +14,6 @@
 #include "HealthBarRenderer.h"
 #include "BoundingBoxRenderer.h"
 #include "UBO.h"
-#include "Terrain.h"
 #include "Octree.h"
 #include "ID.h"
 
@@ -36,13 +35,11 @@ class Scene: public CallbackInterface {
 
 		Scene(Camera * camera);
 		void addEntity(Entity * entity);
-		void addTerrainTile(TerrainTile & t);
 		void loadDataToUBO();
 		void update(long long elapsedMilliseconds);
 		void render(long long elapsedMilliseconds);
-		IntersectionRecord mousePick(Ray & ray); // this will have to be rewritten completely when I add terrain 
-		IntersectionRecord mouseIntersectTerrain(Ray & r); // this will have to be rewritten completely when I add terrain
-		std::vector<Entity *> dragSelect(float startX, float startY, int endX, int endY);
+		IntersectionRecord mousePick(Ray & ray); 
+		std::vector<Entity *> dragSelect(float minX, float minZ, float maxX, float maxZ);
 		void loadFogToShader(unsigned int PROGRAM, glm::vec4 fogColor = glm::vec4(1.0), float gradient = 0.0f, float density = 0.0f);
 		void handleEvents(std::vector<Action> & actions) override;
 		~Scene();

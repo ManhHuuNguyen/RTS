@@ -114,15 +114,6 @@
     <ClCompile Include="Animator.cpp">
       <Filter>Source Files\animation</Filter>
     </ClCompile>
-    <ClCompile Include="Terrain.cpp">
-      <Filter>Source Files\terrain</Filter>
-    </ClCompile>
-    <ClCompile Include="TerrainTile.cpp">
-      <Filter>Source Files\terrain</Filter>
-    </ClCompile>
-    <ClCompile Include="TerrainRenderer.cpp">
-      <Filter>Source Files\terrain</Filter>
-    </ClCompile>
     <ClCompile Include="Material.cpp">
       <Filter>Source Files\entity</Filter>
     </ClCompile>
@@ -246,38 +237,9 @@
     <ClCompile Include="ActiveGUI.cpp">
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="EntityFragmentShader2.frag">
-      <Filter>Resource Files\shaders</Filter>
-    </None>
-    <None Include="EntityVertexShader2.vert">
-      <Filter>Resource Files\shaders</Filter>
-    </None>
-    <None Include="TerrainFragmentShader2.frag">
-      <Filter>Resource Files\shaders</Filter>
-    </None>
-    <None Include="TerrainVertexShader2.vert">
-      <Filter>Resource Files\shaders</Filter>
-    </None>
-    <None Include="GUIFragmentShader.frag">
-      <Filter>Resource Files\shaders</Filter>
-    </None>
-    <None Include="GUIVertexShader.vert">
-      <Filter>Resource Files\shaders</Filter>
-    </None>
-    <None Include="HealthBarVertexShader.vert">
-      <Filter>Resource Files\shaders</Filter>
-    </None>
-    <None Include="HealthBarFragmentShader.frag">
-      <Filter>Resource Files\shaders</Filter>
-    </None>
-    <None Include="BoundingBoxVertexShader.vert">
-      <Filter>Resource Files\shaders</Filter>
-    </None>
-    <None Include="BoundingBoxFragmentShader.frag">
-      <Filter>Resource Files\shaders</Filter>
-    </None>
+    <ClCompile Include="TerrainRenderer.cpp">
+      <Filter>Source Files\terrain</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
@@ -303,15 +265,6 @@
     </ClInclude>
     <ClInclude Include="Model.h">
       <Filter>Header Files\entity</Filter>
-    </ClInclude>
-    <ClInclude Include="Terrain.h">
-      <Filter>Header Files\terrain</Filter>
-    </ClInclude>
-    <ClInclude Include="TerrainRenderer.h">
-      <Filter>Header Files\terrain</Filter>
-    </ClInclude>
-    <ClInclude Include="TerrainTile.h">
-      <Filter>Header Files\terrain</Filter>
     </ClInclude>
     <ClInclude Include="Util.h">
       <Filter>Header Files\util</Filter>
@@ -433,10 +386,45 @@
     <ClInclude Include="ActiveGUI.h">
       <Filter>Header Files\GUI</Filter>
     </ClInclude>
+    <ClInclude Include="TerrainRenderer.h">
+      <Filter>Header Files\terrain</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="contexts\MainContext.xml">
       <Filter>Resource Files</Filter>
     </Xml>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shaders\BoundingBoxFragmentShader.frag">
+      <Filter>Resource Files\shaders</Filter>
+    </None>
+    <None Include="shaders\BoundingBoxVertexShader.vert">
+      <Filter>Resource Files\shaders</Filter>
+    </None>
+    <None Include="shaders\EntityFragmentShader2.frag">
+      <Filter>Resource Files\shaders</Filter>
+    </None>
+    <None Include="shaders\EntityVertexShader2.vert">
+      <Filter>Resource Files\shaders</Filter>
+    </None>
+    <None Include="shaders\GUIFragmentShader.frag">
+      <Filter>Resource Files\shaders</Filter>
+    </None>
+    <None Include="shaders\GUIVertexShader.vert">
+      <Filter>Resource Files\shaders</Filter>
+    </None>
+    <None Include="shaders\HealthBarFragmentShader.frag">
+      <Filter>Resource Files\shaders</Filter>
+    </None>
+    <None Include="shaders\HealthBarVertexShader.vert">
+      <Filter>Resource Files\shaders</Filter>
+    </None>
+    <None Include="shaders\TerrainFragmentShader2.frag">
+      <Filter>Resource Files\shaders</Filter>
+    </None>
+    <None Include="shaders\TerrainVertexShader2.vert">
+      <Filter>Resource Files\shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

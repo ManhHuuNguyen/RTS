@@ -1,6 +1,7 @@
 #pragma once
 #include "glm\glm.hpp"
 #include "glm\gtx\transform.hpp"
+#include "Plane.h"
 
 namespace CONSTANT {
 	extern glm::vec3 COLOR_RED;
@@ -18,7 +19,9 @@ namespace CONSTANT {
 	extern glm::mat4 PROJECTION_MATRIX;
 	extern glm::mat4 INV_PROJECTION_MATRIX;
 	extern glm::mat4 ORTHO_MATRIX;
+	extern glm::mat4 INV_ORTHO;
 	extern float WORLD_SIZE;
 	extern float kEpsilon; // small number, treat as 0
 	extern float MT_PI;	//somehow m_pi cause compile error, weird
+	extern Plane TERRAIN_PLAIN;
 }

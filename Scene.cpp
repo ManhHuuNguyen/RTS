@@ -19,9 +19,7 @@ void Scene::addEntity(Entity * entity) {
 	// add entity whose bounding box needs to be rendered to boundingboxRenderer
 	boundingboxRenderer.boxOfEntities.push_back(entity);
 }
-void Scene::addTerrainTile(TerrainTile & t) {
-	terrainRenderer.addTerrainTile(t);
-}
+
 
 void Scene::loadDataToUBO() {
 	// just passing in dummy value to initialize
@@ -60,7 +58,6 @@ void Scene::update(long long elapsedMilliseconds) {
 void Scene::render(long long elapsedMilliseconds) {
 	glm::vec3 eyePos = glm::vec3(camera->eyePosition);
 	glm::mat4 cameraMat = camera->getViewMatrix();
-	glm::mat4 cameraSkyboxMat = glm::mat4(glm::mat3(cameraMat)); 
 	glm::vec4 fogColor = glm::vec4(0.5f, 0.5f, 0.5f, 1.0f);
 	// camera mat brings camera to origin then rotate to align look, right, up with x, y, -z. 
 
@@ -120,14 +117,8 @@ IntersectionRecord Scene::mousePick(Ray & ray) {
 	IntersectionRecord intersectionRecord{};
 	octree->hitRecursive(ray, &intersectionRecord);
 	if (intersectionRecord.e_ptr == nullptr) {
-		ray.intersectPlane(Plane{ glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f)}, intersectionRecord);
+		ray.intersectPlane(CONSTANT::TERRAIN_PLAIN, intersectionRecord);
 	}
-	return intersectionRecord;
-}
-
-IntersectionRecord Scene::mouseIntersectTerrain(Ray & r) {
-	IntersectionRecord intersectionRecord{};
-	r.intersectPlane(Plane{ glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f) }, intersectionRecord);
 	return intersectionRecord;
 }
 
@@ -136,12 +127,12 @@ void Scene::handleEvents(std::vector<Action> & actions) {
 	for (int i = 0; i < actions.size(); i++) {
 		if (actions[i].fromMouse) {
 			if (actions[i].key == InputManager::DRAG) {
-				if (actions[i].intRanges[4]) { // if finished
-					float startX = actions[i].floatRanges[0];
-					float startY = actions[i].floatRanges[1];
-					int endX = actions[i].intRanges[2];
-					int endY = actions[i].intRanges[3];
-					std::vector<Entity *> chosens = dragSelect(startX, startY, endX, endY);
+				if (actions[i].intRanges[0]) { // if finished
+					float minX = actions[i].floatRanges[0];
+					float minZ = actions[i].floatRanges[1];
+					float maxX = actions[i].floatRanges[2];
+					float  maxZ = actions[i].floatRanges[3];
+					std::vector<Entity *> chosens = dragSelect(minX, minZ, maxX, maxZ);
 					if (chosens.size() > 0) {
 						chosenOnes.clear();
 						for (int i = 0; i < chosens.size(); i++) {
@@ -158,7 +149,6 @@ void Scene::handleEvents(std::vector<Action> & actions) {
 					chosenOnes.clear();
 					chosenOnes.insert(hitRecord.e_ptr);
 				}
-
 			}
 		}
 	}
@@ -166,29 +156,8 @@ void Scene::handleEvents(std::vector<Action> & actions) {
 }
 
 
-std::vector<Entity *> Scene::dragSelect(float startX, float startY, int endX, int endY) {
+std::vector<Entity *> Scene::dragSelect(float minX, float minZ, float maxX, float maxZ) {
 	std::vector<Entity *> chosens;
-	Ray r4 = Ray::getMouseRay(endX, endY, camera);
-	IntersectionRecord record4 = mouseIntersectTerrain(r4);
-	float ghpX = record4.groundHitPoint.x;
-	float ghpY = record4.groundHitPoint.y;
-	float minX, maxX, minZ, maxZ;
-	if (startX < ghpX) {
-		minX = startX;
-		maxX = ghpX;
-	}
-	else {
-		minX = ghpX;
-		maxX = startX;
-	}
-	if (startY < ghpY) {
-		minZ = startY;
-		maxZ = ghpY;
-	}
-	else {
-		minZ = ghpY;
-		maxZ = startY;
-	}
 	octree->dragSelectRecursive(chosens, minX, minZ, maxX, maxZ);
 	return chosens;
 }

@@ -211,25 +211,11 @@
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="FollowCamera.cpp" />
-    <ClCompile Include="Terrain.cpp" />
     <ClCompile Include="TerrainRenderer.cpp" />
-    <ClCompile Include="TerrainTile.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="UBO.cpp" />
     <ClCompile Include="Util.cpp" />
     <ClCompile Include="Vertex.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="BoundingBoxFragmentShader.frag" />
-    <None Include="BoundingBoxVertexShader.vert" />
-    <None Include="EntityFragmentShader2.frag" />
-    <None Include="EntityVertexShader2.vert" />
-    <None Include="GUIFragmentShader.frag" />
-    <None Include="GUIVertexShader.vert" />
-    <None Include="HealthBarFragmentShader.frag" />
-    <None Include="HealthBarVertexShader.vert" />
-    <None Include="TerrainFragmentShader2.frag" />
-    <None Include="TerrainVertexShader2.vert" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ActiveGUI.h" />
@@ -276,9 +262,7 @@
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="stb_image.h" />
-    <ClInclude Include="Terrain.h" />
     <ClInclude Include="TerrainRenderer.h" />
-    <ClInclude Include="TerrainTile.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="UBO.h" />
     <ClInclude Include="Util.h" />
@@ -286,6 +270,18 @@
   </ItemGroup>
   <ItemGroup>
     <Xml Include="contexts\MainContext.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shaders\BoundingBoxFragmentShader.frag" />
+    <None Include="shaders\BoundingBoxVertexShader.vert" />
+    <None Include="shaders\EntityFragmentShader2.frag" />
+    <None Include="shaders\EntityVertexShader2.vert" />
+    <None Include="shaders\GUIFragmentShader.frag" />
+    <None Include="shaders\GUIVertexShader.vert" />
+    <None Include="shaders\HealthBarFragmentShader.frag" />
+    <None Include="shaders\HealthBarVertexShader.vert" />
+    <None Include="shaders\TerrainFragmentShader2.frag" />
+    <None Include="shaders\TerrainVertexShader2.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

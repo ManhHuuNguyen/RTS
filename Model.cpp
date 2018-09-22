@@ -90,9 +90,6 @@ Model::Model(const char * file, Assimp::Importer & importer, bool leftHanded, gl
 		normalizeVertexWeight(materials[i]->mesh);
 	}
 	loadModelToVAO();
-	std::cout << "Printing in Model.cpp: " << std::endl;
-	Util::printGLM(modelData.calculateModelCenter());
-	std::cout <<(modelData.minY) << std::endl;
 }
 
 void Model::loadModelToVAO() {

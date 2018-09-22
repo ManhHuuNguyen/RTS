@@ -59,17 +59,43 @@ std::map<int, std::vector<Action>> MainContext::mapAction(InputWrapper & inputWr
 			if (mouseInputMapper.count(input.inputID) != 0) { // if input is of type main context receives
 				Action action{input.inputID, input.fromMouse};
 				if (input.inputID == InputManager::DRAG) {
-					action.intRanges = input.ranges;
+					action.intRanges.push_back(input.ranges[4]); // the value of finished or not
 					if (input.ranges[4]) { // if drag is finished
-						action.floatRanges.push_back(dragSquare->startPoint.x);
-						action.floatRanges.push_back(dragSquare->startPoint.y);
+						int startX = dragSquare->oldStartPoint.x;
+						int startY = dragSquare->oldStartPoint.y;
+						int endX = input.ranges[2];
+						int endY = input.ranges[3];
+						glm::mat4 inverseViewMat = glm::inverse(dragSquare->cameratMatAtStart);
+						Ray r1 = Ray::getMouseRay(startX, startY, inverseViewMat, dragSquare->cameraPosAtStart);
+						Ray r2 = Ray::getMouseRay(startX, endY, camera);
+						Ray r3 = Ray::getMouseRay(endX, startY, camera);
+						Ray r4 = Ray::getMouseRay(endX, endY, camera);
+
+						float minX, minZ, maxX, maxZ;
+						IntersectionRecord rec1;
+						r1.intersectPlane(CONSTANT::TERRAIN_PLAIN, rec1);
+						IntersectionRecord rec2;
+						r2.intersectPlane(CONSTANT::TERRAIN_PLAIN, rec2);
+						IntersectionRecord rec3;
+						r3.intersectPlane(CONSTANT::TERRAIN_PLAIN, rec3);
+						IntersectionRecord rec4;
+						r4.intersectPlane(CONSTANT::TERRAIN_PLAIN, rec4);
+						minX = std::min(std::min(std::min(rec1.groundHitPoint.x, rec2.groundHitPoint.x), rec3.groundHitPoint.x), rec4.groundHitPoint.x);
+						minZ = std::min(std::min(std::min(rec1.groundHitPoint.y, rec2.groundHitPoint.y), rec3.groundHitPoint.y), rec4.groundHitPoint.y);
+						maxX = std::max(std::max(std::max(rec1.groundHitPoint.x, rec2.groundHitPoint.x), rec3.groundHitPoint.x), rec4.groundHitPoint.x);
+						maxZ = std::max(std::max(std::max(rec1.groundHitPoint.y, rec2.groundHitPoint.y), rec3.groundHitPoint.y), rec4.groundHitPoint.y);
+						action.floatRanges.push_back(minX);
+						action.floatRanges.push_back(minZ);
+						action.floatRanges.push_back(maxX);
+						action.floatRanges.push_back(maxZ);
 					}
 				}
 				else if (input.inputID == InputManager::LEFT_PRESS) {
 					action.intRanges = input.ranges;
 
 					Ray r = Ray::getMouseRay(input.ranges[0], input.ranges[1], camera);
-					IntersectionRecord record = scene->mouseIntersectTerrain(r);
+					IntersectionRecord record;
+					r.intersectPlane(CONSTANT::TERRAIN_PLAIN, record);
 					action.floatRanges.push_back(record.groundHitPoint.x);
 					action.floatRanges.push_back(record.groundHitPoint.y);
 				}
@@ -77,7 +103,8 @@ std::map<int, std::vector<Action>> MainContext::mapAction(InputWrapper & inputWr
 					action.intRanges = input.ranges;
 
 					Ray r = Ray::getMouseRay(input.ranges[0], input.ranges[1], camera);
-					IntersectionRecord record = scene->mouseIntersectTerrain(r);
+					IntersectionRecord record;
+					r.intersectPlane(CONSTANT::TERRAIN_PLAIN, record);
 					action.floatRanges.push_back(record.groundHitPoint.x);
 					action.floatRanges.push_back(record.groundHitPoint.y);
 				}

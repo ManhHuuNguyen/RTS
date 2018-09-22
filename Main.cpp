@@ -21,10 +21,9 @@
 void setUpGLContext();
 void setUpGLMain();
 void loadModels(std::map<std::string, Model *> & models, Assimp::Importer & importer);
-void loadTerrains(std::map<std::string, Terrain *> & terrains);
-void loadTerrainTiles(std::map<std::string, Terrain *> & terrains, Scene & scene);
+
 void loadGUITexture(std::map<std::string, Texture *> & guis);
-void freeResources(std::map<std::string, Model *> & models, std::map<std::string, Terrain *> & terrains, std::map<std::string, Texture *> & guis);
+void freeResources(std::map<std::string, Model *> & models, std::map<std::string, Texture *> & guis);
 
 
 int main(int argc, char *argv[]) {
@@ -41,13 +40,11 @@ int main(int argc, char *argv[]) {
 	
 	// resources loading
 	std::map<std::string, Model *> models;
-	std::map<std::string, Terrain *> terrains;
 	std::map<std::string, Texture *> guis;
 	Assimp::Importer importer = Assimp::Importer();
 	loadGUITexture(guis);
 	loadModels(models, importer);
-	loadTerrains(terrains);
-	loadTerrainTiles(terrains, scene);
+	
 	
 	// load entities
 
@@ -123,7 +120,7 @@ int main(int argc, char *argv[]) {
 		}*/
 	}
 	SDL_DestroyWindow(window);
-	freeResources(models, terrains, guis);
+	freeResources(models, guis);
 	window = NULL;
 	SDL_Quit();
 	return 0;
@@ -161,34 +158,9 @@ void loadGUITexture(std::map<std::string, Texture *> & guis) {
 	guis.insert(std::pair<std::string, Texture *>("WORKER_CARD", workerCardTex));
 }
 
-void loadTerrains(std::map<std::string, Terrain *> & terrains) {
-	const char * textureNames[] = { 
-		"resources/terrain/grassy_hill/grassy2.png",
-		"resources/terrain/grassy_hill/mud.png",
-		"resources/terrain/grassy_hill/grassFlowers.png",
-		"resources/terrain/grassy_hill/path.png"
-	};
-	Terrain * GRASSY_HILL = new Terrain{ "resources/terrain/grassy_hill/heightmap1.png" ,"resources/terrain/grassy_hill/blendMap.png", textureNames, 1, 230.0f };
-	terrains.insert(std::pair<std::string, Terrain*>("GRASSY_HILL", GRASSY_HILL));
-}
-
-void loadTerrainTiles(std::map<std::string, Terrain *> & terrains, Scene & scene) {
-	TerrainTile terrainTile1{ 0, 0, terrains["GRASSY_HILL"] };
-	TerrainTile terrainTile2{ -1, 0, terrains["GRASSY_HILL"] };
-	TerrainTile terrainTile3{ -1, -1, terrains["GRASSY_HILL"] };
-	TerrainTile terrainTile4{ 0, -1, terrains["GRASSY_HILL"] };
-	scene.addTerrainTile(terrainTile1);
-	scene.addTerrainTile(terrainTile2);
-	scene.addTerrainTile(terrainTile3);
-	scene.addTerrainTile(terrainTile4);
-}
-
-void freeResources(std::map<std::string, Model *> & models, std::map<std::string, Terrain *> & terrains, std::map<std::string, Texture *> & guis) {
+void freeResources(std::map<std::string, Model *> & models, std::map<std::string, Texture *> & guis) {
 	for (auto const & model : models) {
 		delete model.second;
-	}
-	for (auto const & terrain : terrains) {
-		delete terrain.second;
 	}
 	for (auto const & guiTexture : guis) {
 		delete guiTexture.second;
