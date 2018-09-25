@@ -80,6 +80,8 @@ std::map<int, std::vector<Action>> MainContext::mapAction(InputWrapper & inputWr
 						r3.intersectPlane(CONSTANT::TERRAIN_PLAIN, rec3);
 						IntersectionRecord rec4;
 						r4.intersectPlane(CONSTANT::TERRAIN_PLAIN, rec4);
+						
+						
 						minX = std::min(std::min(std::min(rec1.groundHitPoint.x, rec2.groundHitPoint.x), rec3.groundHitPoint.x), rec4.groundHitPoint.x);
 						minZ = std::min(std::min(std::min(rec1.groundHitPoint.y, rec2.groundHitPoint.y), rec3.groundHitPoint.y), rec4.groundHitPoint.y);
 						maxX = std::max(std::max(std::max(rec1.groundHitPoint.x, rec2.groundHitPoint.x), rec3.groundHitPoint.x), rec4.groundHitPoint.x);

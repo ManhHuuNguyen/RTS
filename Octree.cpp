@@ -281,11 +281,11 @@ void Octree::dragSelectRecursive(std::vector<Entity *> & chosens, float minX, fl
 	if (objects.size() == 0 && activeNodes == 0) {
 		return;
 	}
-	if (region.overlap(minX, minY, maxX, maxY)) {
+	if (region.overlapRec(minX, minY, maxX, maxY)) {
 		for (int i = 0; i < objects.size(); i++) {
 			glm::mat4 modelMat = objects[i]->getModelMat();
 			BoundingBox b = objects[i]->boundingBox.move(modelMat);
-			if (b.within(minX, minY, maxX, maxY)) {
+			if (b.withinRec(minX, minY, maxX, maxY)) {
 				chosens.push_back(objects[i]);
 			}
 		}

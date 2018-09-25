@@ -38,30 +38,14 @@ bool BoundingBox::contains(BoundingBox & b) {
 	return true;
 }
 
-bool BoundingBox::within(float xStart, float zStart, float xEnd, float zEnd) {
-	/*float xMax, xMin, zMax, zMin;
-	if (xStart < xEnd) {
-		xMax = xEnd;
-		xMin = xStart;
-	}
-	else {
-		xMax = xStart;
-		xMin = xEnd;
-	}
-	if (zStart < zEnd) {
-		zMax = zEnd;
-		zMin = zStart;
-	}
-	else {
-		zMax = zStart;
-		zMin = zEnd;
-	}*/
+bool BoundingBox::withinRec(float xStart, float zStart, float xEnd, float zEnd) {
 	// i do this on the assumption that xStart, zStart are smaller than xEnd, zEnd since the method that calls this method already sorts them
 	if (minDimension.x >= xStart && maxDimension.x <= xEnd && minDimension.z >= zStart && maxDimension.z <= zEnd) {
 		return true;
 	}
 	return false;
 }
+
 
 glm::vec3 BoundingBox::getEdgeSize() {
 	return maxDimension - minDimension;
@@ -122,7 +106,7 @@ bool BoundingBox::collide(BoundingBox & b) {
 		   (minDimension.z <= b.maxDimension.z && maxDimension.z >= b.minDimension.z);
 }
 
-bool BoundingBox::overlap(float xStart, float zStart, float xEnd, float zEnd) {
+bool BoundingBox::overlapRec(float xStart, float zStart, float xEnd, float zEnd) {
 	if (xStart > maxDimension.x || xEnd < minDimension.x) {
 		return false;
 	}

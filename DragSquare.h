@@ -6,13 +6,12 @@
 class DragSquare : public GUI { // to be used as drag select
 	
 	public:
-		// inbetween are just testing variables
 		glm::vec2 startPointInWorld = glm::vec2(-1.0f, -1.0f);
 		glm::ivec2 oldStartPoint = glm::ivec2(-1, -1);
 		glm::mat4 cameratMatAtStart;
 		glm::vec4 cameraPosAtStart;
 		bool begin = false;
-		// inbetween are just testing variables
+
 		DragSquare(Texture * texture);
 		void update(InputWrapper & inputWrapper, Camera * cam);
 		void start(int startX, int startY, Camera * cam, float spWorldX, float spWorldY);

@@ -128,11 +128,13 @@ void Scene::handleEvents(std::vector<Action> & actions) {
 		if (actions[i].fromMouse) {
 			if (actions[i].key == InputManager::DRAG) {
 				if (actions[i].intRanges[0]) { // if finished
-					float minX = actions[i].floatRanges[0];
+					/*float minX = actions[i].floatRanges[0];
 					float minZ = actions[i].floatRanges[1];
 					float maxX = actions[i].floatRanges[2];
 					float  maxZ = actions[i].floatRanges[3];
-					std::vector<Entity *> chosens = dragSelect(minX, minZ, maxX, maxZ);
+					std::vector<Entity *> chosens = dragSelect(minX, minZ, maxX, maxZ);*/
+					std::vector<Entity *> chosens = dragSelect(actions[i].floatRanges[0], actions[i].floatRanges[1], 
+						actions[i].floatRanges[2], actions[i].floatRanges[3]);
 					if (chosens.size() > 0) {
 						chosenOnes.clear();
 						for (int i = 0; i < chosens.size(); i++) {

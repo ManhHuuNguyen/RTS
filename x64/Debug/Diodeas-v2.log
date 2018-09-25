@@ -1,8 +1,72 @@
 ﻿C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets(391,5): warning MSB8028: The intermediate directory (x64\Debug\) contains files shared from another project (Diodeas-v2.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  ActiveGUI.cpp
+  Animation.cpp
+  Animator.cpp
+d:\programming\rts\diodeas-v2\animator.cpp(6): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+  BoundingBox.cpp
+  BoundingBoxRenderer.cpp
+  Camera.cpp
+  CubeMap.cpp
+  Destination.cpp
+  DragSquare.cpp
+d:\programming\rts\diodeas-v2\intersectionrecord.h(6): warning C4244: 'initializing': conversion from 'std::numeric_limits<double>::_Ty' to 'float', possible loss of data
+  Entity.cpp
+d:\programming\rts\diodeas-v2\entity.cpp(15): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+d:\programming\rts\diodeas-v2\entity.cpp(38): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  EntityRenderer.cpp
+d:\programming\rts\diodeas-v2\entityrenderer.cpp(17): warning C4267: '+=': conversion from 'size_t' to 'int', possible loss of data
+  FollowCamera.cpp
+  Frustum.cpp
+  GUI.cpp
+  GUIRenderer.cpp
+  HealthBarRenderer.cpp
+  Main.cpp
+d:\programming\rts\diodeas-v2\intersectionrecord.h(6): warning C4244: 'initializing': conversion from 'std::numeric_limits<double>::_Ty' to 'float', possible loss of data
   MainContext.cpp
+d:\programming\rts\diodeas-v2\intersectionrecord.h(6): warning C4244: 'initializing': conversion from 'std::numeric_limits<double>::_Ty' to 'float', possible loss of data
+  Material.cpp
+  Model.cpp
+d:\programming\rts\diodeas-v2\model.cpp(39): warning C4018: '<': signed/unsigned mismatch
+d:\programming\rts\diodeas-v2\model.cpp(77): warning C4018: '<': signed/unsigned mismatch
+d:\programming\rts\diodeas-v2\model.cpp(146): warning C4018: '<': signed/unsigned mismatch
+d:\programming\rts\diodeas-v2\model.cpp(154): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+d:\programming\rts\diodeas-v2\model.cpp(158): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\programming\rts\diodeas-v2\model.cpp(159): warning C4018: '<': signed/unsigned mismatch
+d:\programming\rts\diodeas-v2\model.cpp(163): warning C4018: '<': signed/unsigned mismatch
+d:\programming\rts\diodeas-v2\model.cpp(165): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\programming\rts\diodeas-v2\model.cpp(169): warning C4018: '<': signed/unsigned mismatch
+d:\programming\rts\diodeas-v2\model.cpp(171): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\programming\rts\diodeas-v2\model.cpp(175): warning C4018: '<': signed/unsigned mismatch
+d:\programming\rts\diodeas-v2\model.cpp(177): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\programming\rts\diodeas-v2\model.cpp(201): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+d:\programming\rts\diodeas-v2\model.cpp(204): warning C4018: '<': signed/unsigned mismatch
+d:\programming\rts\diodeas-v2\model.cpp(219): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+d:\programming\rts\diodeas-v2\model.cpp(222): warning C4018: '<': signed/unsigned mismatch
+d:\programming\rts\diodeas-v2\model.cpp(252): warning C4018: '<': signed/unsigned mismatch
+d:\programming\rts\diodeas-v2\model.cpp(255): warning C4018: '<': signed/unsigned mismatch
+d:\programming\rts\diodeas-v2\model.cpp(273): warning C4018: '<': signed/unsigned mismatch
+d:\programming\rts\diodeas-v2\model.cpp(355): warning C4018: '<': signed/unsigned mismatch
+  Generating Code...
+  Compiling...
+  Mouse.cpp
+d:\programming\rts\diodeas-v2\intersectionrecord.h(6): warning C4244: 'initializing': conversion from 'std::numeric_limits<double>::_Ty' to 'float', possible loss of data
+  MovingUnit.cpp
+  Octree.cpp
+d:\programming\rts\diodeas-v2\intersectionrecord.h(6): warning C4244: 'initializing': conversion from 'std::numeric_limits<double>::_Ty' to 'float', possible loss of data
+  Ray.cpp
 d:\programming\rts\diodeas-v2\intersectionrecord.h(6): warning C4244: 'initializing': conversion from 'std::numeric_limits<double>::_Ty' to 'float', possible loss of data
   Scene.cpp
 d:\programming\rts\diodeas-v2\intersectionrecord.h(6): warning C4244: 'initializing': conversion from 'std::numeric_limits<double>::_Ty' to 'float', possible loss of data
 d:\programming\rts\diodeas-v2\scene.cpp(117): warning C4838: conversion from 'std::numeric_limits<double>::_Ty' to 'float' requires a narrowing conversion
+  TerrainRenderer.cpp
+d:\programming\rts\diodeas-v2\terrainrenderer.cpp(5): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+d:\programming\rts\diodeas-v2\terrainrenderer.cpp(5): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
+d:\programming\rts\diodeas-v2\terrainrenderer.cpp(83): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+  Texture.cpp
+  UnitCard.cpp
+  Util.cpp
+  Worker.cpp
   Generating Code...
+d:\programming\rts\diodeas-v2\util.cpp(30): warning C4715: 'Util::getGLColorFormat': not all control paths return a value
+d:\programming\rts\diodeas-v2\util.cpp(42): warning C4715: 'Util::getPixelSize': not all control paths return a value
   Diodeas-v2.vcxproj -> D:\Programming\RTS\x64\Debug\RTS.exe
